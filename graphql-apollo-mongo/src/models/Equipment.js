@@ -1,14 +1,19 @@
 import mongoose, { Schema } from "mongoose";
-import { DistanceSchema } from "./Distance";
+//import { DistanceSchema } from "./Distance";
 
-export const EquipmentSchema = Schema({ 
+const EquipmentSchema = Schema({ 
     name: String,
     type: String,
-    usage: DistanceSchema,
-    limit: DistanceSchema,
+    // I don't think this is done right
+    // usage: DistanceSchema,
+    // limit: DistanceSchema,
     active: Boolean
 }, {
     timestamps: true
 });
 
-export const Equipment = mongoose.model('Equipment', EquipmentSchema);
+EquipmentSchema.pre('save', async function () {
+  // Pre-save function
+})
+
+export default mongoose.model('Equipment', EquipmentSchema);

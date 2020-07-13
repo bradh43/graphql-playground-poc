@@ -1,17 +1,25 @@
 import mongoose, { Schema } from "mongoose";
-import { UserSchema } from "./User";
-import { ActivitySchema } from "./Activity";
-import { CommentSchema } from "./Comment";
 
-export const PostSchema = Schema({ 
-    title: String,
-    note: String,
-    author: UserSchema,
-    activityList: [ActivitySchema],
-    likeList: [UserSchema],
-    commentList: [CommentSchema]
+const { ObjectId } = Schema.Types 
+
+const PostSchema = Schema({ 
+  title: String,
+  note: String,
+  author: {
+    type: ObjectId,
+    ref: 'User'
+  },
+  activityList: [{
+    type: ObjectId,
+    ref: 'Activity'
+  }] 
+  // removed likes and comments due to scalability
 }, {
-    timestamps: true
+  timestamps: true
 });
 
-export const Post = mongoose.model('Post', PostSchema);
+PostSchema.pre('save', async function () {
+  // Pre-save function
+})
+
+export default mongoose.model('Post', PostSchema);

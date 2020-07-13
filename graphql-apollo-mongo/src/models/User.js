@@ -1,22 +1,32 @@
 import mongoose, { Schema } from "mongoose";
-import { TeamSchema } from "./Team";
-import { EquipmentSchema } from "./Equipment"
 
-export const UserSchema = Schema({ 
-    first: String,
-    last: String,
-    email: String,
-    username: String,
-    profilePictureURL: String,
-    birthdate: String,
-    bio: String,
-    private: Boolean,
-    teamList: [TeamSchema],
-    equipment: [EquipmentSchema]
-},{
-    timestamps: true
+const { ObjectId } = Schema.Types 
+
+const UserSchema = Schema({ 
+  email: String,
+  first: String,
+  last: String,
+  username: String,
+  password: String,
+  profilePictureURL: String,
+  birthdate: String,
+  bio: String,
+  private: Boolean,
+  teamList: [{
+    type: ObjectId,
+    ref: 'Team'
+  }],
+  equipment: [{
+    type: ObjectId,
+    ref: 'Equipment'
+  }]
+}, {
+  timestamps: true
 });
 
+UserSchema.pre('save', async function () {
+  // Pre-save function
+})
 
-export const User = mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema);
 

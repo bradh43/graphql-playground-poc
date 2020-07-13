@@ -7,11 +7,10 @@ export default gql`
     commentsByPostId(postId: ID!): [Comment!]!
   }
 
-  # FIX ME: comment
   input CreateCommentInput {
     note: String!
-    userId: String! 
-    likeList: []
+    userId: ID! 
+    likeList: [ID!]!
   }
 
   extend type Mutation {
@@ -22,7 +21,8 @@ export default gql`
     id: ID!
     note: String!
     author: User!
-    createdAt: String!
     likeList: [User!]!
+    createdAt: String!
+    updatedAt: String!
   }
 `

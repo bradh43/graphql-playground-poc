@@ -1,8 +1,9 @@
-import mongoose, { Schema } from "mongoose";
+// import mongoose, { Schema } from "mongoose";
 
-export const DistanceSchema = Schema({ 
-    value: Number,
-    unit: String
-});
+// // i dont think this is right...
+// export const DistanceSchema = Schema({ 
+//     value: Number,
+//     unit: String
+// });
 
-export const Distance = mongoose.model('Distance', DistanceSchema);
+// export const Distance = mongoose.model('Distance', DistanceSchema);

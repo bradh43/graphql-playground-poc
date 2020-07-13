@@ -1,16 +1,24 @@
 import mongoose, { Schema } from "mongoose";
-import { DistanceSchema } from "./Distance";
-import { EquipmentSchema } from "./Equipment";
+
+const { ObjectId } = Schema.Types 
 
 export const ActivitySchema = Schema({ 
-    type: String,
-    duration: Number,
-    distance: DistanceSchema,
-    equipment: EquipmentSchema,
-    additionalInfo: {
-        averageHeartRate: Number,
-        elevationGain: Number
-    }
+  type: String,
+  duration: Number,
+  // distance: DistanceSchema,
+  equipment: {
+    type: ObjectId,
+    ref: 'Equipment'
+  }
+  //,
+//   additionalInfo: {
+//     averageHeartRate: Number,
+//     elevationGain: Number
+//   }
 });
 
-export const Activity = mongoose.model('Activity', ActivitySchema);
+ActivitySchema.pre('save', async function () {
+  // Pre-save function
+})
+
+export default mongoose.model('Activity', ActivitySchema);

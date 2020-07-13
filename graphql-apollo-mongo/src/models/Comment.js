@@ -1,12 +1,23 @@
 import mongoose, { Schema } from "mongoose";
-import { UserSchema } from "./User";
 
-export const CommentSchema = Schema({ 
-    note: String,
-    author: UserSchema,
-    likeList: [UserSchema]
+const { ObjectId } = Schema.Types 
+
+const CommentSchema = Schema({ 
+  note: String,
+  author: {
+    type: ObjectId,
+    ref: 'User'
+  },
+  likeList: [{
+    type: ObjectId,
+    ref: 'User'
+  }]
 }, {
     timestamps: true
 });
 
-export const Comment = mongoose.model('Comment', CommentSchema);
+CommentSchema.pre('save', async function () {
+  // Pre-save function
+})
+
+export default mongoose.model('Comment', CommentSchema);

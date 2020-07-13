@@ -1,15 +1,29 @@
 import mongoose, { Schema } from "mongoose";
-import { UserSchema } from "./User";
 
-export const TeamSchema = Schema({ 
-    name: String,
-    description: String,
-    owner: UserSchema,
-    adminList: [UserSchema],
-    memberList: [UserSchema]
+const { ObjectId } = Schema.Types 
+
+const TeamSchema = Schema({ 
+  name: String,
+  description: String,
+  owner: {
+    type: ObjectId,
+    ref: 'User'
+  },
+  adminList: [{
+    type: ObjectId,
+    ref: 'User'
+  }],
+  memberList: [{
+    type: ObjectId,
+    ref: 'User'
+  }]
 }, {
-    timestamps: true
+  timestamps: true
 });
 
-export const Team = mongoose.model('Team', TeamSchema);
+TeamSchema.pre('save', async function () {
+  // Pre-save function
+})
+
+export default mongoose.model('Team', TeamSchema);
 

@@ -1,11 +1,11 @@
 import { gql } from 'apollo-server-express'
-import { DistanceInput } from './Distance'
+// import { DistanceInput } from './Distance'
 
 export default gql`
   extend type Query {
     activity(id: ID!): Activity
     activities: [Activity!]!
-    activitiesByLogID(logID: ID!): [Activity!]!
+    activitiesByPostId(postId: ID!): [Activity!]!
   }
 
   enum AllowedActivity {
@@ -20,11 +20,11 @@ export default gql`
     HIKE
   }
 
-  # FIX ME: activity
   input CreateActivityInput {
     type: AllowedActivity!
     duration: Int
-    distance: DistanceInput 
+    # distance: DistanceInput
+    equipment: ID
   }
 
   extend type Mutation {
@@ -35,11 +35,12 @@ export default gql`
     id: ID!
     type: AllowedActivity!
     duration: Int
-    distance: Distance
+    # distance: DistanceInput
     equipment: Equipment
-    additionalInfo: {
-        averageHeartRate: Int,
-        elevationGain: Int
-    }
+    # this doesn't work...
+    # additionalInfo: {
+    #     averageHeartRate: Int,
+    #     elevationGain: Int
+    # }
   }
 `

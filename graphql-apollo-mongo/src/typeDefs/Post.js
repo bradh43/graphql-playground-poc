@@ -1,5 +1,4 @@
 import { gql } from 'apollo-server-express'
-import { Distance, DistanceInput } from './Distance'
 
 export default gql`
   extend type Query {
@@ -8,14 +7,13 @@ export default gql`
     postsByUserId(userId: ID!): [Post!]!
   }
 
-  ## FIX ME: post
   input CreatePostInput {
     title: String!
     note: String
-    userId: String!
-    activity
-    ## author fix me
-
+    userId: ID!
+    activityList: [ID!]!
+    commentList: [ID!]!
+    likeList: [ID!]!
   }
 
   extend type Mutation {

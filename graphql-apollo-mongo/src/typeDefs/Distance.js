@@ -1,20 +1,20 @@
-import { gql } from 'apollo-server-express'
+// import { gql } from 'apollo-server-express'
 
-export default gql`
-  enum AllowedUnit {
-    KM
-    YDS
-    MI
-    M
-  }
+// export default gql`
+//   enum AllowedUnit {
+//     KM
+//     YDS
+//     MI
+//     M
+//   }
 
-  type Distance {
-    value: Float!
-    unit: AllowedUnit!
-  }
+//   type Distance {
+//     value: Float!
+//     unit: AllowedUnit!
+//   }
 
-  input DistanceInput {
-    value: Float!
-    unit: AllowedUnit!
-  }
-`
+//   input DistanceInput {
+//     value: Float!
+//     unit: AllowedUnit!
+//   }
+// `

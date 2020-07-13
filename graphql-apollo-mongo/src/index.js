@@ -1,13 +1,15 @@
 import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
 import express from "express";
-import { typeDefs } from "./schema/typeDefs"
-import { resolvers}  from "./schema/resolvers";
+import typeDefs from "./typeDefs"
+import resolvers from "./resolvers";
 import { APP_PORT, IN_PROD, DB_USERNAME, DB_PASSWORD, DB_HOST, DB_NAME } from './config'
 
-
-const startServer = async () =>  {
-  try{    
+/* 
+  Self-invoking asynchronous function
+*/
+(async () =>  {
+  try {    
     // MongoDB on Atlas
     // const uri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`
 
@@ -19,7 +21,7 @@ const startServer = async () =>  {
       useUnifiedTopology: true
     }).then(() => {
       console.log('Connected to MongoDB...')
-    })
+    });
 
     const app = express();
 
@@ -39,6 +41,4 @@ const startServer = async () =>  {
   } catch (e) {
     console.error(e)
   }
-};
-
-startServer()
+})()
