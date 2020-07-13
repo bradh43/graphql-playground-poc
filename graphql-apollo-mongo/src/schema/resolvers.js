@@ -1,4 +1,3 @@
-import { Cat } from "../models/Cat"
 import { Activity } from "../models/Activity";
 import { User } from "../models/User";
 import { Team } from "../models/Team";
@@ -11,21 +10,15 @@ import { Equipment } from "../models/Equipment";
 export const resolvers = {
     Query: {
         hello: () => "Hi GraphQL",
-        cats: () => Cat.find(),
         activities: () => Activity.find(),
         users: () => User.find(),
         teams: () => Team.find(),
         posts: () => Post.find(),
         distances: () => Distance.find(),
-        list_equipment: () => Equipment.find(),
-        remove_distance: () => Distance.find().remove()
+        listEquipment: () => Equipment.find(),
+        removeDistance: () => Distance.find().remove()
     },
     Mutation: {
-        createCat: async (_, { name }) => {
-            const cat = new Cat({ name });
-            await cat.save();
-            return cat;
-        },
         createDistance: async (_,{ value, unit }) => {
             const distance = new Distance({ value, unit });
             await distance.save();
@@ -38,8 +31,8 @@ export const resolvers = {
             return equipment;
         }
 
-        // createUser: async (_, { first, last, email, display_name, profile_picture_url, birthdate, bio, private, creation_date }) => {
-        //     const user = new User({ first, last, email, display_name, profile_picture_url, birthdate, bio, private, creation_date });
+        // createUser: async (_, { first, last, email, username, profilePictureUrl, birthdate, bio, private, createdAt }) => {
+        //     const user = new User({ first, last, email, username, profilePictureURL, birthdate, bio, private, createdAt });
         //     await user.save();
         //     return user;
         // }

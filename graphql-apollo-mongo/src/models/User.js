@@ -4,11 +4,11 @@ export const User = mongoose.model('User', {
     first: String,
     last: String,
     email: String,
-    display_name: String,
-    profile_picture_url: String,
+    username: String,
+    profilePictureURL: String,
     birthdate: String,
     bio: String,
     private: Boolean,
-    creation_date: String
+    createdAt: {type: Date, default: Date.now},
 });
 

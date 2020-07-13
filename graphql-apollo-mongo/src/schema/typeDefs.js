@@ -3,19 +3,14 @@ import { gql } from "apollo-server-express";
 export const typeDefs = gql`
     type Query {
         hello: String!
-        cats: [Cat!]!
         activities: [Activity!]!
         users: [User!]!
         teams: [Team!]!
         posts: [Post!]!
         distances: [Distance!]!
-        list_equipment: [Equipment!]!
-        remove_distance: Distance
+        listEquipment: [Equipment!]!
+        removeDistance: Distance
     } 
-    type Cat {
-        id: ID!
-        name: String!
-    }
     enum AllowedUnit {
         KM
         YDS
@@ -38,7 +33,7 @@ export const typeDefs = gql`
         id: ID!
         type: AllowedEquipment!
         name: String!
-        creation_date: String
+        createdAt: String!
         usage: Distance!
         limit: Distance!
         active: Boolean!
@@ -66,22 +61,22 @@ export const typeDefs = gql`
         name: String!
         description: String!
         creator: User!
-        creation_date: String!
-        admin_list: [User!]!
-        member_list: [User!]!
+        createdAt: String!
+        adminList: [User!]!
+        memberList: [User!]!
     }
     type User {
         id: ID!
         first: String!
         last: String!
         email: String!
-        display_name: String!
-        profile_picture_url: String!
+        username: String!
+        profilePictureURL: String!
         birthdate: String!
         bio: String!
         private: Boolean!
-        creation_date: String!
-        team_list: [Team!]!
+        createdAt: String!
+        teamList: [Team!]!
         equipment: [Equipment!]!
     } 
 
@@ -89,9 +84,9 @@ export const typeDefs = gql`
         id: ID!
         note: String!
         author: User!
-        creation_date: String!
-        last_updated_timestamp: String!
-        like_list: [User!]!
+        createdAt: String!
+        lastUpdatedTimestamp: String!
+        likeList: [User!]!
     }
 
     type Post {
@@ -99,15 +94,14 @@ export const typeDefs = gql`
         title: String!
         note: String!
         author: User!
-        creation_date: String!
-        last_updated_timestamp: String!
-        activity_list: [Activity!]!
-        like_list: [User!]!
-        comment_list: [Comment!]!
+        createdAt: String!
+        lastUpdatedTimestamp: String!
+        activityList: [Activity!]!
+        likeList: [User!]!
+        commentList: [Comment!]!
     }
 
     type Mutation {
-        createCat(name: String!): Cat!
         createDistance(value: Float!, unit: AllowedUnit!): Distance!
         createEquipment(name: String, type: AllowedEquipment!, usage: DistanceInput!, limit: DistanceInput!, active: Boolean!): Equipment!
     }
