@@ -1,7 +1,12 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { UserSchema } from "./User";
 
-export const Comment = mongoose.model('Comment', { 
+export const CommentSchema = Schema({ 
     note: String,
-    createdAt: {type: Date, default: Date.now},
-    lastUpdatedDate: String
+    author: UserSchema,
+    likeList: [UserSchema]
+}, {
+    timestamps: true
 });
+
+export const Comment = mongoose.model('Comment', CommentSchema);

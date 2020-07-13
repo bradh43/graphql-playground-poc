@@ -1,8 +1,15 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { UserSchema } from "./User";
 
-export const Team = mongoose.model('Team', { 
+export const TeamSchema = Schema({ 
     name: String,
     description: String,
-    createdAt: {type: Date, default: Date.now}
+    owner: UserSchema,
+    adminList: [UserSchema],
+    memberList: [UserSchema]
+}, {
+    timestamps: true
 });
+
+export const Team = mongoose.model('Team', TeamSchema);
 

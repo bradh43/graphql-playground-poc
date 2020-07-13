@@ -6,7 +6,11 @@ export const ActivitySchema = Schema({
     type: String,
     duration: Number,
     distance: DistanceSchema,
-    equipment: EquipmentSchema
+    equipment: EquipmentSchema,
+    additionalInfo: {
+        averageHeartRate: Number,
+        elevationGain: Number
+    }
 });
 
 export const Activity = mongoose.model('Activity', ActivitySchema);

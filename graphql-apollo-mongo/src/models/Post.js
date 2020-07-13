@@ -1,8 +1,17 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { UserSchema } from "./User";
+import { ActivitySchema } from "./Activity";
+import { CommentSchema } from "./Comment";
 
-export const Post = mongoose.model('Post', { 
+export const PostSchema = Schema({ 
     title: String,
     note: String,
-    createdAt: {type: Date, default: Date.now},
-    lastUpdatedTimestamp: String
+    author: UserSchema,
+    activityList: [ActivitySchema],
+    likeList: [UserSchema],
+    commentList: [CommentSchema]
+}, {
+    timestamps: true
 });
+
+export const Post = mongoose.model('Post', PostSchema);

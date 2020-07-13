@@ -2,14 +2,12 @@ import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
     type Query {
-        hello: String!
         activities: [Activity!]!
         users: [User!]!
         teams: [Team!]!
         posts: [Post!]!
         distances: [Distance!]!
         listEquipment: [Equipment!]!
-        removeDistance: Distance
     } 
     enum AllowedUnit {
         KM
@@ -60,7 +58,7 @@ export const typeDefs = gql`
         id: ID!
         name: String!
         description: String!
-        creator: User!
+        owner: User!
         createdAt: String!
         adminList: [User!]!
         memberList: [User!]!
@@ -85,7 +83,7 @@ export const typeDefs = gql`
         note: String!
         author: User!
         createdAt: String!
-        lastUpdatedTimestamp: String!
+        updatedAt: String!
         likeList: [User!]!
     }
 
@@ -95,7 +93,7 @@ export const typeDefs = gql`
         note: String!
         author: User!
         createdAt: String!
-        lastUpdatedTimestamp: String!
+        updateAt: String!
         activityList: [Activity!]!
         likeList: [User!]!
         commentList: [Comment!]!
@@ -104,5 +102,6 @@ export const typeDefs = gql`
     type Mutation {
         createDistance(value: Float!, unit: AllowedUnit!): Distance!
         createEquipment(name: String, type: AllowedEquipment!, usage: DistanceInput!, limit: DistanceInput!, active: Boolean!): Equipment!
+        //TODO createPost createUser deleteUser editUser likePost createPost deletePost editPost editCommentPost deleteCommentPost likeCommentPost 
     }
 `;

@@ -9,14 +9,11 @@ import { Equipment } from "../models/Equipment";
 
 export const resolvers = {
     Query: {
-        hello: () => "Hi GraphQL",
         activities: () => Activity.find(),
         users: () => User.find(),
         teams: () => Team.find(),
         posts: () => Post.find(),
-        distances: () => Distance.find(),
         listEquipment: () => Equipment.find(),
-        removeDistance: () => Distance.find().remove()
     },
     Mutation: {
         createDistance: async (_,{ value, unit }) => {

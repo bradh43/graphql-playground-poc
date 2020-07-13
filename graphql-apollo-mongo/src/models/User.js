@@ -1,6 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { TeamSchema } from "./Team";
+import { EquipmentSchema } from "./Equipment"
 
-export const User = mongoose.model('User', { 
+export const UserSchema = Schema({ 
     first: String,
     last: String,
     email: String,
@@ -9,6 +11,12 @@ export const User = mongoose.model('User', {
     birthdate: String,
     bio: String,
     private: Boolean,
-    createdAt: {type: Date, default: Date.now},
+    teamList: [TeamSchema],
+    equipment: [EquipmentSchema]
+},{
+    timestamps: true
 });
+
+
+export const User = mongoose.model('User', UserSchema);
 
