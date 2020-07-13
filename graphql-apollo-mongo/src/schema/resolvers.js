@@ -17,6 +17,7 @@ export const resolvers = {
         teams: () => Team.find(),
         posts: () => Post.find(),
         distances: () => Distance.find(),
+        list_equipment: () => Equipment.find(),
         remove_distance: () => Distance.find().remove()
     },
     Mutation: {
@@ -29,12 +30,13 @@ export const resolvers = {
             const distance = new Distance({ value, unit });
             await distance.save();
             return distance;
+        },
+
+        createEquipment: async (_,{ name, type, usage, limit, active }) => {
+            const equipment = new Equipment({ name, type, usage, limit, active });
+            await equipment.save();
+            return equipment;
         }
-        // createEquipment: async (_,{ value, unit }) => {
-        //     const distance = new Equipment({ value, unit });
-        //     await distance.save();
-        //     return distance;
-        // }
 
         // createUser: async (_, { first, last, email, display_name, profile_picture_url, birthdate, bio, private, creation_date }) => {
         //     const user = new User({ first, last, email, display_name, profile_picture_url, birthdate, bio, private, creation_date });

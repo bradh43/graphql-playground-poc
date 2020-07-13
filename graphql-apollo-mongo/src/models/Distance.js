@@ -1,6 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-export const Distance = mongoose.model('Distance', { 
+export const DistanceSchema = Schema({ 
     value: Number,
     unit: String
 });
+
+export const Distance = mongoose.model('Distance', DistanceSchema);

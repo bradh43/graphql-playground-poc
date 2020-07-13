@@ -1,7 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { DistanceSchema } from "./Distance";
 
-export const Equipment = mongoose.model('Equipment', { 
+export const EquipmentSchema = Schema({ 
     name: String,
-    creation_date: String,
+    type: String,
+    creation_date: {type: Date, default: Date.now},
+    usage: DistanceSchema,
+    limit: DistanceSchema,
     active: Boolean 
 });
+
+export const Equipment = mongoose.model('Equipment', EquipmentSchema);

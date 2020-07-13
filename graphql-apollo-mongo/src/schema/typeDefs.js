@@ -9,6 +9,7 @@ export const typeDefs = gql`
         teams: [Team!]!
         posts: [Post!]!
         distances: [Distance!]!
+        list_equipment: [Equipment!]!
         remove_distance: Distance
     } 
     type Cat {
@@ -25,6 +26,10 @@ export const typeDefs = gql`
         value: Float!
         unit: AllowedUnit!
     }
+    input DistanceInput {
+        value: Float!
+        unit: AllowedUnit!
+    }
     enum AllowedEquipment {
         SHOE
         BIKE
@@ -33,7 +38,7 @@ export const typeDefs = gql`
         id: ID!
         type: AllowedEquipment!
         name: String!
-        creation_date: String!
+        creation_date: String
         usage: Distance!
         limit: Distance!
         active: Boolean!
@@ -100,10 +105,10 @@ export const typeDefs = gql`
         like_list: [User!]!
         comment_list: [Comment!]!
     }
+
     type Mutation {
         createCat(name: String!): Cat!
         createDistance(value: Float!, unit: AllowedUnit!): Distance!
-        # createEquipment(type: AllowedEquipment!, name: String!, creation_date: String!, usage: Distance!, limit: Distance!, active: Boolean!): Equipment!
-
+        createEquipment(name: String, type: AllowedEquipment!, usage: DistanceInput!, limit: DistanceInput!, active: Boolean!): Equipment!
     }
 `;

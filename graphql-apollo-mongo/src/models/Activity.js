@@ -1,5 +1,12 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { DistanceSchema } from "./Distance";
+import { EquipmentSchema } from "./Equipment";
 
-export const Activity = mongoose.model('Activity', { 
-    duration: Number
+export const ActivitySchema = Schema({ 
+    type: String,
+    duration: Number,
+    distance: DistanceSchema,
+    equipment: EquipmentSchema
 });
+
+export const Activity = mongoose.model('Activity', ActivitySchema);
