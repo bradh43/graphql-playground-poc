@@ -3,8 +3,8 @@ import { gql } from 'apollo-server-express'
 export default gql`
   extend type Query {
     comment(id: ID!): Comment
-    comments: [Comment!]!
-    commentsByPostId(postId: ID!): [Comment!]!
+    commentList: [Comment!]!
+    commentListByPostId(postId: ID!): [Comment!]!
   }
 
   input CreateCommentInput {
@@ -14,7 +14,7 @@ export default gql`
   }
 
   extend type Mutation {
-    createComment(input: CreateCommentInput!): Comment
+    createComment(input: CreateCommentInput): Comment!
   }
 
   type Comment {

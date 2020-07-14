@@ -3,8 +3,8 @@ import { gql } from 'apollo-server-express'
 export default gql`
   extend type Query {
     team(id: ID!): Team
-    teams(id: ID!): [Team!]!
-    teamsByOwner(userId: ID!): [Team!]!
+    teamList(id: ID!): [Team!]!
+    teamListByOwner(userId: ID!): [Team!]!
   }
 
   input CreateTeamInput {
@@ -16,7 +16,7 @@ export default gql`
   }
 
   extend type Mutation {
-    createTeam(input: CreateTeamInput!): Team
+    createTeam(input: CreateTeamInput): Team!
   }
   
   type Team {

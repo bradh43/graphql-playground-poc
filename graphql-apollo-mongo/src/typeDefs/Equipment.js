@@ -1,11 +1,9 @@
 import { gql } from 'apollo-server-express'
-// import { Distance, DistanceInput } from './Distance'
 
 export default gql`
   extend type Query {
-    equipment(id: ID!): Equipment
-    equipments: [Equipment!]!
-    equipmentByUserId(userId: ID!): Equipment
+    equipment(id: ID!): Equipment!
+    equipmentList: [Equipment!]!
   }
 
   enum AllowedEquipment {
@@ -16,23 +14,22 @@ export default gql`
   input CreateEquipmentInput {
     name: String!
     type: AllowedEquipment!
-    # usage: DistanceInput!
-    # limit: DistanceInput!
+    usage: DistanceInput!
+    limit: DistanceInput!
     active: Boolean!
   }
 
   extend type Mutation {
-    createEquipment(input: CreateEquipmentInput): Equipment
+    createEquipment(input: CreateEquipmentInput): Equipment!
   }
 
   type Equipment {
     id: ID!
     type: AllowedEquipment!
     name: String!
-    # usage: Distance!
-    # limit: Distance!
-    active: Boolean!
     createdAt: String!
-    updatedAt: String!
+    usage: Distance!
+    limit: Distance!
+    active: Boolean!
   }
 `

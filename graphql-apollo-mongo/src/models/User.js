@@ -16,7 +16,7 @@ const UserSchema = Schema({
     type: ObjectId,
     ref: 'Team'
   }],
-  equipment: [{
+  equipmentList: [{
     type: ObjectId,
     ref: 'Equipment'
   }]

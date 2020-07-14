@@ -1,19 +1,13 @@
 import User from './User'
-// import Post from './Post'
-// import Equipment from './Equipment'
-// import Comment from './Comment'
-// import Activity from './Activity'
+import Post from './Post'
+import Equipment from './Equipment'
+import Comment from './Comment'
+import Activity from './Activity'
 
 export default [
-  User
-  // ,
+  User,
   // Post,
-  // Equipment,
-  // Comment,
-  // Activity
-  //,
-  // Post,
-  // Equipment,
+  Equipment
   // Comment,
   // Activity
 ]

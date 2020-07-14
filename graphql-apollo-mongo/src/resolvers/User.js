@@ -4,7 +4,7 @@ import { User } from '../models'
 
 export default {
   Query: {
-    users: (root, args, context, info) => {
+    userList: (root, args, context, info) => {
       // TODO: auth, projection, pagination
 
       return User.find({})
@@ -20,11 +20,13 @@ export default {
     }
   },
   Mutation: {
-    createUser: (root, { input: args }, context, info) => {
+    createUser: async (root, { input: args }, context, info) => {
       // TODO: not auth
 
       // Perform validation
-      return User.create(args)
+      const user = await User.create(args)
+
+      return user
     }
   }
 }
