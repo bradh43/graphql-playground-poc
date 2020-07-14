@@ -1,8 +1,8 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose'
 
-const { ObjectId } = Schema.Types 
+const { ObjectId } = Schema.Types
 
-const PostSchema = Schema({ 
+const PostSchema = Schema({
   title: String,
   note: String,
   author: {
@@ -12,14 +12,14 @@ const PostSchema = Schema({
   activityList: [{
     type: ObjectId,
     ref: 'Activity'
-  }] 
+  }]
   // removed likes and comments due to scalability
 }, {
   timestamps: true
-});
+})
 
 PostSchema.pre('save', async function () {
   // Pre-save function
 })
 
-export default mongoose.model('Post', PostSchema);
+export default mongoose.model('Post', PostSchema)

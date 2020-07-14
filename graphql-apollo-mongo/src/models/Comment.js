@@ -1,8 +1,8 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose'
 
-const { ObjectId } = Schema.Types 
+const { ObjectId } = Schema.Types
 
-const CommentSchema = Schema({ 
+const CommentSchema = Schema({
   note: String,
   author: {
     type: ObjectId,
@@ -13,11 +13,11 @@ const CommentSchema = Schema({
     ref: 'User'
   }]
 }, {
-    timestamps: true
-});
+  timestamps: true
+})
 
 CommentSchema.pre('save', async function () {
   // Pre-save function
 })
 
-export default mongoose.model('Comment', CommentSchema);
+export default mongoose.model('Comment', CommentSchema)

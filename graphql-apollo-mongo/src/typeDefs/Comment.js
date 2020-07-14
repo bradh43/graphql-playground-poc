@@ -9,8 +9,8 @@ export default gql`
 
   input CreateCommentInput {
     note: String!
-    userId: ID! 
-    likeList: [ID!]!
+    authorId: ID! 
+    likeIdList: [ID!]!
   }
 
   extend type Mutation {

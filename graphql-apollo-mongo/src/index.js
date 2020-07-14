@@ -1,15 +1,15 @@
-import { ApolloServer } from "apollo-server-express";
-import mongoose from "mongoose";
-import express from "express";
-import typeDefs from "./typeDefs"
-import resolvers from "./resolvers";
-import { APP_PORT, IN_PROD, DB_USERNAME, DB_PASSWORD, DB_HOST, DB_NAME } from './config'
+import { ApolloServer } from 'apollo-server-express'
+import mongoose from 'mongoose'
+import express from 'express'
+import typeDefs from './typeDefs'
+import resolvers from './resolvers'
+import { APP_PORT, IN_PROD } from './config'
 
-/* 
+/*
   Self-invoking asynchronous function
 */
-(async () =>  {
-  try {    
+(async () => {
+  try {
     // MongoDB on Atlas
     // const uri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`
 
@@ -21,19 +21,19 @@ import { APP_PORT, IN_PROD, DB_USERNAME, DB_PASSWORD, DB_HOST, DB_NAME } from '.
       useUnifiedTopology: true
     }).then(() => {
       console.log('Connected to MongoDB...')
-    });
+    })
 
-    const app = express();
+    const app = express()
 
-    app.disable('x-powered-by');
+    app.disable('x-powered-by')
 
     const server = new ApolloServer({
       typeDefs,
       resolvers,
       playground: !IN_PROD
-    });
-      
-    server.applyMiddleware({ app });
+    })
+
+    server.applyMiddleware({ app })
 
     app.listen({ port: APP_PORT }, () =>
       console.log(`🚀 Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`)

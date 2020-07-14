@@ -1,8 +1,8 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose'
 
-const { ObjectId } = Schema.Types 
+const { ObjectId } = Schema.Types
 
-const UserSchema = Schema({ 
+const UserSchema = Schema({
   email: String,
   first: String,
   last: String,
@@ -22,11 +22,10 @@ const UserSchema = Schema({
   }]
 }, {
   timestamps: true
-});
+})
 
 UserSchema.pre('save', async function () {
   // Pre-save function
 })
 
-export default mongoose.model('User', UserSchema);
-
+export default mongoose.model('User', UserSchema)

@@ -1,9 +1,9 @@
-import mongoose, { Schema } from "mongoose";
-import { DistanceSchema } from "./Distance";
+import mongoose, { Schema } from 'mongoose'
+import { DistanceSchema } from './Distance'
 
-const { ObjectId } = Schema.Types 
+const { ObjectId } = Schema.Types
 
-export const ActivitySchema = Schema({ 
+export const ActivitySchema = Schema({
   type: String,
   duration: Number,
   distance: DistanceSchema,
@@ -16,10 +16,10 @@ export const ActivitySchema = Schema({
     elevationGain: Number,
     calories: Number
   }
-});
+})
 
 ActivitySchema.pre('save', async function () {
   // Pre-save function
 })
 
-export default mongoose.model('Activity', ActivitySchema);
+export default mongoose.model('Activity', ActivitySchema)

@@ -21,12 +21,30 @@ export default {
   },
   Mutation: {
     createUser: async (root, { input: args }, context, info) => {
+      const { email, first, last, username, password } = args
       // TODO: not auth
 
       // Perform validation
-      const user = await User.create(args)
+      const user = await User.create({
+        email,
+        first,
+        last,
+        username,
+        password
+      })
 
       return user
+    }
+  },
+  User: {
+    postList: (user, args, context, info) => {
+      // TODO
+    },
+    teamList: (user, args, context, info) => {
+      // TODO
+    },
+    equipmentList: (user, args, context, info) => {
+      // TODO
     }
   }
 }

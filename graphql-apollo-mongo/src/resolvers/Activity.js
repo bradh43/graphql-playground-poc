@@ -13,7 +13,7 @@ export default {
       // TODO: auth, projection, sanitization
 
       if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new UserInputError('ID is not a valid ActivityID')
+        throw new UserInputError('ID is not a valid ObjectID')
       }
 
       return Activity.findById(id)
@@ -21,21 +21,24 @@ export default {
   },
   Mutation: {
     createActivity: async (root, { input: args }, context, info) => {
-      // TODO: not auth
+      const { type, duration, distance, equipmentId, additionalInfo } = args
+      // TODO: auth
 
       // Perform validation
-      const activity = await Activity.create(args)
+      const activity = await Activity.create({
+        type,
+        duration,
+        distance,
+        equipment: equipmentId,
+        additionalInfo
+      })
 
       return activity
     }
   },
   Activity: {
     equipment: (activity, args, context, info) => {
-      // HELP THIS WON'T WORK
-      return Equipment.find(activity.equipmentId)
-
-      //return Equipment.find( { _id: activity.equipment.id })
-      return null
+      // TODO
     }
   }
 }

@@ -1,8 +1,8 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose'
 
-const { ObjectId } = Schema.Types 
+const { ObjectId } = Schema.Types
 
-const TeamSchema = Schema({ 
+const TeamSchema = Schema({
   name: String,
   description: String,
   owner: {
@@ -19,11 +19,10 @@ const TeamSchema = Schema({
   }]
 }, {
   timestamps: true
-});
+})
 
 TeamSchema.pre('save', async function () {
   // Pre-save function
 })
 
-export default mongoose.model('Team', TeamSchema);
-
+export default mongoose.model('Team', TeamSchema)

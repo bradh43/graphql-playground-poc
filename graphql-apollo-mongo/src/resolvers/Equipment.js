@@ -9,11 +9,12 @@ export default {
 
       return Equipment.find({})
     },
-    equipment: (root, { id }, context, info) => {
+    equipment: (root, args, context, info) => {
+      const { id } = args
       // TODO: auth, projection, sanitization
 
       if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new UserInputError('ID is not a valid UserID')
+        throw new UserInputError('ID is not a valid ObjectID')
       }
 
       return Equipment.findById(id)
@@ -21,10 +22,18 @@ export default {
   },
   Mutation: {
     createEquipment: async (root, { input: args }, context, info) => {
-      // TODO: not auth
+      const { name, type, usage, limit, active } = args
+
+      // TODO: auth
 
       // Perform validation
-      const equipment = await Equipment.create(args)
+      const equipment = await Equipment.create({
+        name,
+        type,
+        usage,
+        limit,
+        active
+      })
 
       return equipment
     }

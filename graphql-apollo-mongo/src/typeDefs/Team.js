@@ -10,9 +10,9 @@ export default gql`
   input CreateTeamInput {
     name: String!
     description: String
-    owner: ID!
-    adminList: [ID!]!
-    memberList: [ID!]!
+    ownerId: ID!
+    adminIdList: [ID!]!
+    memberIdList: [ID!]!
   }
 
   extend type Mutation {
