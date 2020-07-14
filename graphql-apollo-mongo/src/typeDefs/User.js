@@ -7,21 +7,21 @@ export default gql`
     users: [User!]!
   }
 
-  # input CreateUserInput {
-  #   email: String!
-  #   first: String!
-  #   last: String!
-  #   username: String!
-  #   password: String!
-  # }
-
-  # extend type Mutation {
-  #   createUser(input: CreateUserInput!): User
-  # }
+  input CreateUserInput {
+    email: String!
+    first: String!
+    last: String!
+    username: String!
+    password: String!
+  }
 
   extend type Mutation {
-    createUser(email: String!, first: String!, last: String!, username: String!, password: String!): User
+    createUser(input: CreateUserInput): User!
   }
+
+  # extend type Mutation {
+  #   createUser(email: String!, first: String!, last: String!, username: String!, password: String!): User
+  # }
 
   type User {
     id: ID!

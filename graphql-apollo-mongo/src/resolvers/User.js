@@ -20,7 +20,7 @@ export default {
     }
   },
   Mutation: {
-    createUser: (root, args, context, info) => {
+    createUser: (root, { input: args }, context, info) => {
       // TODO: not auth
 
       // Perform validation
