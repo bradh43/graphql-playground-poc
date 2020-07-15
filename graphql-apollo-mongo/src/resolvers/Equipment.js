@@ -22,7 +22,7 @@ export default {
   },
   Mutation: {
     createEquipment: async (root, { input: args }, context, info) => {
-      const { name, type, usage, limit, active } = args
+      const { name, type, usage, limit, active, ownerId } = args
       // TODO: auth
 
       // Perform validation
@@ -31,10 +31,17 @@ export default {
         type,
         usage,
         limit,
-        active
+        active,
+        owner: ownerId
       })
 
       return equipment
+    }
+  },
+  Equipment: {
+    owner: async (equipment, args, context, info) => {
+      await equipment.populate('owner').execPopulate()
+      return equipment.owner
     }
   }
 }

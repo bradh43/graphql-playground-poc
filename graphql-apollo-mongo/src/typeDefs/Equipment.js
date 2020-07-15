@@ -17,7 +17,7 @@ export default gql`
     usage: DistanceInput!
     limit: DistanceInput!
     active: Boolean!
-    # ownerId: ID!
+    ownerId: ID!
   }
 
   extend type Mutation {
@@ -32,5 +32,6 @@ export default gql`
     usage: Distance!
     limit: Distance!
     active: Boolean!
+    owner: User!
   }
 `
