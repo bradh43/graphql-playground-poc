@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { UserInputError } from 'apollo-server-express'
-import { User } from '../models'
+import { User, Post } from '../models'
 
 export default {
   Query: {
@@ -38,13 +38,15 @@ export default {
   },
   User: {
     postList: (user, args, context, info) => {
-      // TODO
+      Post.find({ author: user.id })
     },
-    teamList: (user, args, context, info) => {
-      // TODO
+    teamList: async (user, args, context, info) => {
+      await user.populate('teamList').execPopulate()
+      return user.teamList
     },
-    equipmentList: (user, args, context, info) => {
-      // TODO
+    equipmentList: async (user, args, context, info) => {
+      await user.populate('equipmentList').execPopulate()
+      return user.equipmentList
     }
   }
 }

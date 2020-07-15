@@ -45,14 +45,17 @@ export default {
     }
   },
   Post: {
-    author: (post, args, context, info) => {
-      // TODO
+    author: async (post, args, context, info) => {
+      await post.populate('author').execPopulate()
+      return post.author
     },
-    activityList: (post, args, context, info) => {
-      // TODO
+    activityList: async (post, args, context, info) => {
+      await post.populate('activityList').execPopulate()
+      return post.activityList
     },
-    commentList: (post, args, context, info) => {
-      // TODO
+    commentList: async (post, args, context, info) => {
+      await post.populate('commentList').execPopulate()
+      return post.commentList
     }
   }
 }

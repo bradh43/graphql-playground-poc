@@ -23,7 +23,6 @@ export default {
   Mutation: {
     createEquipment: async (root, { input: args }, context, info) => {
       const { name, type, usage, limit, active } = args
-
       // TODO: auth
 
       // Perform validation

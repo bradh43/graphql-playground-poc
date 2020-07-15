@@ -48,14 +48,17 @@ export default {
     }
   },
   Team: {
-    owner: (team, args, context, info) => {
-      // TODO
+    owner: async (team, args, context, info) => {
+      await team.populate('owner').execPopulate()
+      return team.owner
     },
-    adminList: (team, args, context, info) => {
-      // TODO
+    adminList: async (team, args, context, info) => {
+      await team.populate('adminList').execPopulate()
+      return team.adminList
     },
-    memberList: (team, args, context, info) => {
-      // TODO
+    memberList: async (team, args, context, info) => {
+      await team.populate('memberList').execPopulate()
+      return team.memberList
     }
   }
 }

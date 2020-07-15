@@ -31,11 +31,13 @@ export default {
     }
   },
   Comment: {
-    author: (comment, args, context, info) => {
-      // TODO
+    author: async (comment, args, context, info) => {
+      await comment.populate('author').execPopulate()
+      return comment.author
     },
-    likeList: (comment, args, context, info) => {
-      // TODO
+    likeList: async (comment, args, context, info) => {
+      await comment.populate('likeList').execPopulate()
+      return comment.likeList
     }
   }
 }

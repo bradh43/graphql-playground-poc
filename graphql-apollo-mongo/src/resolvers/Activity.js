@@ -37,8 +37,9 @@ export default {
     }
   },
   Activity: {
-    equipment: (activity, args, context, info) => {
-      // TODO
+    equipment: async (activity, args, context, info) => {
+      await activity.populate('equipment').execPopulate()
+      return activity.equipment
     }
   }
 }
