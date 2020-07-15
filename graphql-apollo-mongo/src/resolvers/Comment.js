@@ -17,12 +17,13 @@ export default {
   },
   Mutation: {
     createComment: async (root, { input: args }, context, info) => {
-      const { note, authorId, likeIdList } = args
+      const { note, postId, authorId, likeIdList } = args
       // TODO: auth
 
       // Perform validation
       const comment = await Comment.create({
         note,
+        post: postId,
         author: authorId,
         likeList: likeIdList
       })

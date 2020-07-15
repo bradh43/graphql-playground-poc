@@ -4,6 +4,10 @@ const { ObjectId } = Schema.Types
 
 const CommentSchema = Schema({
   note: String,
+  post: {
+    type: ObjectId,
+    ref: 'Post'
+  },
   author: {
     type: ObjectId,
     ref: 'User'

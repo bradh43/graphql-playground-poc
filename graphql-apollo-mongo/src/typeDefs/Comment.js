@@ -9,6 +9,7 @@ export default gql`
 
   input CreateCommentInput {
     note: String!
+    postId: ID!
     authorId: ID! 
     likeIdList: [ID!]!
   }
