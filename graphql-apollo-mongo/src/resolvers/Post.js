@@ -30,14 +30,14 @@ export default {
   },
   Mutation: {
     createPost: async (root, { input: args }, context, info) => {
-      const { title, note, userId, activityIdList } = args
+      const { title, note, authorId, activityIdList } = args
       // TODO: auth
 
       // Perform validation
       const post = await Post.create({
         title,
         note,
-        author: userId,
+        author: authorId,
         activityList: activityIdList
       })
 

@@ -17,3 +17,15 @@ export default [
   Activity,
   Distance
 ]
+
+/* 
+  LikePost 
+    post: postID
+    user: userID
+    id: ID
+
+  LikeComment
+    comment: commentId
+    user: userId
+    id: ID
+*/

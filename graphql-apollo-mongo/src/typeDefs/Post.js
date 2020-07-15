@@ -10,7 +10,7 @@ export default gql`
   input CreatePostInput {
     title: String!
     note: String
-    userId: ID!
+    authorId: ID!
     activityIdList: [ID!]!
     # posts wont have comments, scalability issue
     # commentIdList: [ID!]!
