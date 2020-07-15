@@ -14,15 +14,21 @@ export default gql`
     likeIdList: [ID!]!
   }
 
+  input LikeCommentInput {
+    commentId: ID!
+    userId: ID!
+  }
+
   extend type Mutation {
     createComment(input: CreateCommentInput): Comment!
+    likeComment(input: LikeCommentInput): Comment!
   }
 
   type Comment {
     id: ID!
     note: String!
     author: User!
-    likeList: [User!]!
+    likeList: [LikeComment!]!
     createdAt: String!
     updatedAt: String!
   }

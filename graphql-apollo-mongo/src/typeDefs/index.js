@@ -6,6 +6,8 @@ import Post from './Post'
 import Activity from './Activity'
 import Team from './Team'
 import Distance from './Distance'
+import LikeComment from './LikeComment'
+import LikePost from './LikePost'
 
 export default [
   root,
@@ -15,17 +17,7 @@ export default [
   Equipment,
   Comment,
   Activity,
-  Distance
+  Distance,
+  LikeComment,
+  LikePost
 ]
-
-/* 
-  LikePost 
-    post: postID
-    user: userID
-    id: ID
-
-  LikeComment
-    comment: commentId
-    user: userId
-    id: ID
-*/

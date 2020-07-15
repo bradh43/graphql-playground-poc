@@ -5,3 +5,6 @@ export { default as Equipment } from './Equipment'
 export { default as Distance } from './Distance'
 export { default as Activity } from './Activity'
 export { default as Comment } from './Comment'
+export { default as LikeComment } from './LikeComment'
+export { default as LikePost } from './LikePost'
+

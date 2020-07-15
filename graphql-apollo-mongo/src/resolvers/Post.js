@@ -42,6 +42,17 @@ export default {
       })
 
       return post
+    },
+    likePost: async (root, { input: args }, context, info) => {
+      const { postId, authorId } = args
+      // TODO: auth
+
+      // Perform validation
+
+      //TODO findOneAndUpdate, check if already liked by user and if so remove
+      const post = Post.findById(postId)
+
+      return post
     }
   },
   Post: {

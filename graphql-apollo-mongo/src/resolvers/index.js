@@ -4,6 +4,8 @@ import Equipment from './Equipment'
 import Comment from './Comment'
 import Activity from './Activity'
 import Team from './Team'
+import LikeComment from './LikeComment'
+import LikePost from './LikePost'
 
 export default [
   User,
@@ -11,5 +13,7 @@ export default [
   Equipment,
   Comment,
   Activity,
-  Team
+  Team,
+  LikeComment,
+  LikePost
 ]

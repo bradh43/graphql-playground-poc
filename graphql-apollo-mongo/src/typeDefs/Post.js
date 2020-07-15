@@ -17,8 +17,14 @@ export default gql`
     # likeIdList: [ID!]!
   }
 
+  input LikePostInput {
+    postId: ID!
+    userId: ID!
+  }
+
   extend type Mutation {
     createPost(input: CreatePostInput): Post!
+    likePost(input: LikePostInput): Post!
   }
   
   type Post {
@@ -29,7 +35,7 @@ export default gql`
     createdAt: String!
     updatedAt: String!
     activityList: [Activity!]!
-    likeList: [User!]!
+    likeList: [LikePost!]!
     commentList: [Comment!]!
   }
 `
