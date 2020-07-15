@@ -38,7 +38,8 @@ export default {
   },
   User: {
     postList: (user, args, context, info) => {
-      Post.find({ author: user.id })
+      // TODO: pagination, projection
+      return Post.find({ author: user.id })
     },
     teamList: async (user, args, context, info) => {
       await user.populate('teamList').execPopulate()

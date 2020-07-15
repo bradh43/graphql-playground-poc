@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { UserInputError } from 'apollo-server-express'
-import { Post } from '../models'
+import { Post, Comment } from '../models'
 
 export default {
   Query: {
@@ -54,8 +54,10 @@ export default {
       return post.activityList
     },
     commentList: async (post, args, context, info) => {
-      await post.populate('commentList').execPopulate()
-      return post.commentList
+      return Comment.find({ post: post.id })
+    },
+    likeList: async (post, args, context, info) => {
+      // TODO
     }
   }
 }
