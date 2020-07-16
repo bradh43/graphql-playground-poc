@@ -3,9 +3,9 @@ import mongoose, { Schema } from 'mongoose'
 const { ObjectId } = Schema.Types
 
 const LikeCommentSchema = Schema({
-  post: {
+  comment: {
     type: ObjectId,
-    ref: 'Post'
+    ref: 'Comment'
   },
   user: {
     type: ObjectId,

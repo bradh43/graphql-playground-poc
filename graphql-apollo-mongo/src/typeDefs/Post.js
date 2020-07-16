@@ -17,14 +17,23 @@ export default gql`
     # likeIdList: [ID!]!
   }
 
-  input LikePostInput {
-    postId: ID!
-    userId: ID!
+  input UpdatePostInput {
+    id: ID!
+    title: String
+    note: String
+    authorId: ID
+    activityIdList: [ID!]
   }
-
+  
   extend type Mutation {
     createPost(input: CreatePostInput): Post!
-    likePost(input: LikePostInput): Post!
+
+    # TODO
+    updatePost(input: UpdatePostInput): Post!
+    deletePost(id: ID!): SuccessMessage
+
+    # Liking a post would be a LikePost mutation, not a post mutation
+    # likePost(input: LikePostInput): Post! 
   }
   
   type Post {

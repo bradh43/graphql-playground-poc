@@ -15,8 +15,21 @@ export default gql`
     memberIdList: [ID!]!
   }
 
+  input UpdateTeamInput {
+    id: ID!
+    name: String
+    description: String
+    ownerId: ID
+    adminIdList: [ID!]
+    memberIdList: [ID!]
+  }
+
   extend type Mutation {
     createTeam(input: CreateTeamInput): Team!
+
+    # TODO 
+    updateTeam(input: UpdateTeamInput): Team!
+    deleteTeam(id: ID!): SuccessMessage
   }
   
   type Team {

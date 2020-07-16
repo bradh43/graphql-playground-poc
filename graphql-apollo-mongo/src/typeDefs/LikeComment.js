@@ -3,8 +3,8 @@ import { gql } from 'apollo-server-express'
 export default gql`
   extend type Query {
     likeComment(id: ID!): LikeComment
-    likeCommentList: [LikeComment!]!
-    likeCommentListByPostId(postId: ID!): [LikeComment!]!
+    # likeCommentList: [LikeComment!]!
+    likeCommentListByCommentId(commentId: ID!): [LikeComment!]!
   }
 
   input CreateLikeCommentInput {
@@ -12,8 +12,16 @@ export default gql`
     userId: ID! 
   }
 
+  input DeleteLikeCommentInput {
+    commentId: ID!
+    userId: ID! 
+  }
+
   extend type Mutation {
     createLikeComment(input: CreateLikeCommentInput): LikeComment!
+
+    # TODO
+    deleteLikeComment(input: DeleteLikeCommentInput): SuccessMessage
   }
 
   type LikeComment {

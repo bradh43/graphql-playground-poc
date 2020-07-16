@@ -8,6 +8,7 @@ import Team from './Team'
 import Distance from './Distance'
 import LikeComment from './LikeComment'
 import LikePost from './LikePost'
+import SuccessMessage from './SuccessMessage'
 
 export default [
   root,
@@ -19,5 +20,6 @@ export default [
   Activity,
   Distance,
   LikeComment,
-  LikePost
+  LikePost,
+  SuccessMessage
 ]

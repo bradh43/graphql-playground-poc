@@ -42,18 +42,21 @@ export default {
       })
 
       return post
-    },
-    likePost: async (root, { input: args }, context, info) => {
-      const { postId, authorId } = args
-      // TODO: auth
-
-      // Perform validation
-
-      //TODO findOneAndUpdate, check if already liked by user and if so remove
-      const post = Post.findById(postId)
-
-      return post
     }
+    // You would create mutation for LikePost, not for post.
+    // likePost: async (root, { input: args }, context, info) => {
+    //   const { postId, authorId } = args
+    //   // TODO: auth
+
+    //   // Perform validation
+
+    //   // TODO findOneAndUpdate, check if already liked by user and if so remove
+    //   // Prat's take: post doesn't have a like list. You would updated LikePost
+    //   // with this post Id and user id...
+    //   const post = Post.findById(postId)
+
+    //   return post
+    // }
   },
   Post: {
     author: async (post, args, context, info) => {

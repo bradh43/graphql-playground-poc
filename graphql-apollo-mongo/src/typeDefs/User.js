@@ -15,8 +15,39 @@ export default gql`
     password: String!
   }
 
+  input UpdateUserInput {
+    id: ID!
+    email: String
+    first: String
+    last: String
+    username: String
+    profilePictureURL: String
+    birthdate: String
+    bio: String
+    private: Boolean
+
+    # adding a team
+    teamId: ID!
+
+    # adding an equipment
+    equipmentId: ID!
+  }
+
+  input DeleteUserInput {
+    id: ID!
+    email: String!
+    username: String!
+    birthdate: String!
+    # password: String!
+  }
+
+
   extend type Mutation {
     createUser(input: CreateUserInput): User!
+
+    # TODO
+    updateUser(input: UpdateUserInput): User!
+    deleteUser(input: DeleteUserInput): SuccessMessage
   }
 
   type User {

@@ -7,4 +7,3 @@ export { default as Activity } from './Activity'
 export { default as Comment } from './Comment'
 export { default as LikeComment } from './LikeComment'
 export { default as LikePost } from './LikePost'
-

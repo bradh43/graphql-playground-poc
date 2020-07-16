@@ -13,6 +13,16 @@ export default {
       }
 
       return LikePost.findById(id)
+    },
+    likePostListByPostId: (root, args, context, info) => {
+      const { postId } = args
+      // TODO: auth, projection, sanitization
+
+      if (!mongoose.Types.ObjectId.isValid(postId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      return LikePost.find({ post: postId })
     }
   },
   Mutation: {

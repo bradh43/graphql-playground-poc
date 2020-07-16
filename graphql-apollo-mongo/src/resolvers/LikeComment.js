@@ -13,6 +13,16 @@ export default {
       }
 
       return LikeComment.findById(id)
+    },
+    likeCommentListByCommentId: (root, args, context, info) => {
+      const { commentId } = args
+      // TODO: auth, projection, sanitization
+
+      if (!mongoose.Types.ObjectId.isValid(commentId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      return LikeComment.find({ comment: commentId })
     }
   },
   Mutation: {

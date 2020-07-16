@@ -20,8 +20,17 @@ export default gql`
     ownerId: ID!
   }
 
+  input RetireEquipmentInput {
+    id: ID!
+    active: Boolean!
+  }
+
   extend type Mutation {
     createEquipment(input: CreateEquipmentInput): Equipment!
+    
+    # TODO
+    retireEquipment(input: RetireEquipmentInput): Equipment!
+    deleteEquipment(id: ID!): SuccessMessage
   }
 
   type Equipment {
