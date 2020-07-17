@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UserInputError } from 'apollo-server-express'
+import { UserInputError, ApolloError } from 'apollo-server-express'
 import { Post, Comment } from '../models'
 
 export default {
@@ -42,21 +42,23 @@ export default {
       })
 
       return post
+    },
+    updatePost: async (root, { input: args }, context, info) => {
+      // TODO
+    },
+    deletePost: async (root, args, context, info) => {
+      const { postId } = args
+
+      try {
+        const post = await Post.findById(postId)
+        // TODO: Checks, auth, validation
+        await post.delete()
+
+        return { message: 'Post deleted', boolean: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     }
-    // You would create mutation for LikePost, not for post.
-    // likePost: async (root, { input: args }, context, info) => {
-    //   const { postId, authorId } = args
-    //   // TODO: auth
-
-    //   // Perform validation
-
-    //   // TODO findOneAndUpdate, check if already liked by user and if so remove
-    //   // Prat's take: post doesn't have a like list. You would updated LikePost
-    //   // with this post Id and user id...
-    //   const post = Post.findById(postId)
-
-    //   return post
-    // }
   },
   Post: {
     author: async (post, args, context, info) => {

@@ -12,6 +12,7 @@ export default gql`
   }
 
   input DeleteLikePostInput {
+    id: ID!
     postId: ID!
     userId: ID! 
   }

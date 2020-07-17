@@ -45,6 +45,12 @@ export default {
       })
 
       return team
+    },
+    updateTeam: async (root, { input: args }, context, info) => {
+      // TODO
+    },
+    deleteTeam: async (root, args, context, info) => {
+      // TODO
     }
   },
   Team: {

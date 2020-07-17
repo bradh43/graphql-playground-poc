@@ -13,6 +13,7 @@ export default gql`
   }
 
   input DeleteLikeCommentInput {
+    id: ID!
     commentId: ID!
     userId: ID! 
   }

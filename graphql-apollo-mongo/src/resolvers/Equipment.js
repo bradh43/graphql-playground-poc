@@ -36,6 +36,12 @@ export default {
       })
 
       return equipment
+    },
+    updateEquipment: async (root, { input: args }, context, info) => {
+      // TODO
+    },
+    deleteEquipment: async (root, args, context, info) => {
+      // TODO
     }
   },
   Equipment: {

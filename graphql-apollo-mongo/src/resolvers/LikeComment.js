@@ -37,6 +37,9 @@ export default {
       })
 
       return likeComment
+    },
+    deleteLikeComment: async (root, { input: args }, context, info) => {
+      // TODO
     }
   },
   LikeComment: {

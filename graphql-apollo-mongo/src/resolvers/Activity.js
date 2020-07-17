@@ -34,6 +34,12 @@ export default {
       })
 
       return activity
+    },
+    updatedActivity: async (root, { input: args }, context, info) => {
+      // TODO
+    },
+    deleteActivity: async (root, args, context, info) => {
+      // TODO
     }
   },
   Activity: {

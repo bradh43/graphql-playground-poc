@@ -34,6 +34,12 @@ export default {
       })
 
       return user
+    },
+    updateUser: async (root, { input: args }, context, info) => {
+      // TODO
+    },
+    deleteUser: async (root, { input: args }, context, info) => {
+      // TODO
     }
   },
   User: {

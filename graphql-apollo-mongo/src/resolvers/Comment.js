@@ -29,6 +29,9 @@ export default {
       })
 
       return comment
+    },
+    deleteComment: async (root, args, context, info) => {
+      // TODO
     }
   },
   Comment: {
