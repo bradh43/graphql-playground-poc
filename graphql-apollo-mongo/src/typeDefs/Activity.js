@@ -47,7 +47,7 @@ export default gql`
 
     # TODO
     updatedActivity(input: UpdateActivityInput!): Activity!
-    deleteActivity(activityId: ID!): Activity!
+    deleteActivity(activityId: ID!): SuccessMessage!
   }
   
   type AdditionalInfo {

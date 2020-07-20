@@ -47,7 +47,7 @@ export default {
       const { postId, activityIdList, ...body } = args
 
       try {
-        const post = await Post.findByIdAndUpdate(postId, body, { new: true })
+        const post = await Post.update(postId, body, { new: true })
         post.activityList = activityIdList
 
         return post
@@ -63,7 +63,7 @@ export default {
         // TODO: Checks, auth, validation
         await post.delete()
 
-        return post
+        return { message: 'Post Deleted', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }

@@ -39,14 +39,16 @@ export default {
       // TODO
     },
     deleteUser: async (root, { input: args }, context, info) => {
-      const { userId, email, username, password } = args
+      const { userId } = args
+      // TODO: add validaiton with email, username and password...
+      //, email, username, password
 
       try {
         const user = await User.findById(userId)
         // TODO: Checks, auth, validation
         await user.delete()
 
-        return user
+        return { message: 'User Deleted', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }

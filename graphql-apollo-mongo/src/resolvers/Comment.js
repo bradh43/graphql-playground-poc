@@ -38,7 +38,7 @@ export default {
         // TODO: Checks, auth, validation
         await comment.delete()
 
-        return comment
+        return { message: 'Comment Deleted', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }

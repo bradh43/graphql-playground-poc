@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { UserInputError, ApolloError } from 'apollo-server-express'
-import { Equipment } from '../models'
+import { Equipment, User } from '../models'
 
 export default {
   Query: {
@@ -46,9 +46,15 @@ export default {
       try {
         const equipment = await Equipment.findById(equipmentId)
         // TODO: Checks, auth, validation
+
+        // TODO: test this
+        await User.update(equipment.owner, {
+          $pull: { equipmentList: equipmentId }
+        })
+
         await equipment.delete()
 
-        return equipment
+        return { message: 'Equipment Deleted', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }

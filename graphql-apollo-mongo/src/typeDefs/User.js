@@ -47,7 +47,7 @@ export default gql`
 
     # TODO
     updateUser(input: UpdateUserInput!): User!
-    deleteUser(input: DeleteUserInput!): User!
+    deleteUser(input: DeleteUserInput!): SuccessMessage!
   }
 
   type User {

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { UserInputError, ApolloError } from 'apollo-server-express'
-import { Activity } from '../models'
+import { Activity, Post } from '../models'
 
 export default {
   Query: {
@@ -44,9 +44,15 @@ export default {
       try {
         const activity = await Activity.findById(activityId)
         // TODO: Checks, auth, validation
+
+        // TODO: test this
+        await Post.update(activity.post, {
+          $pull: { activityList: activityId }
+        })
+
         await activity.delete()
 
-        return activity
+        return { message: 'Activity Deleted', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }

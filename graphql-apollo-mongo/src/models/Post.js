@@ -5,6 +5,10 @@ const { ObjectId } = Schema.Types
 const PostSchema = Schema({
   title: String,
   note: String,
+  post: {
+    type: ObjectId,
+    ref: 'Post'
+  },
   author: {
     type: ObjectId,
     ref: 'User'

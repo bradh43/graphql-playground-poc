@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { UserInputError, ApolloError } from 'apollo-server-express'
-import { Team } from '../models'
+import { Team, User } from '../models'
 
 export default {
   Query: {
@@ -57,9 +57,14 @@ export default {
         const team = await Team.findById(teamId)
         // TODO: Checks, auth, validation
         // you have to delete team and remove that team from each user on that team...
+
+        // TODO: test this
+        await User.updateMany(team.memberList, {
+          $pull: { teamList: teamId }
+        })
         await team.delete()
 
-        return team
+        return { message: 'Team Deleted', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }
