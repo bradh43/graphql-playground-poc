@@ -48,7 +48,7 @@ export default {
 
       try {
         const post = await Post.findByIdAndUpdate(postId, body, { new: true })
-        post.activityList.push(activityIdList)
+        post.activityList = activityIdList
 
         return post
       } catch (e) {
