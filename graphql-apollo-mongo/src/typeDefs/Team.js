@@ -16,7 +16,7 @@ export default gql`
   }
 
   input UpdateTeamInput {
-    id: ID!
+    teamId: ID!
     name: String
     description: String
     ownerId: ID
@@ -25,11 +25,11 @@ export default gql`
   }
 
   extend type Mutation {
-    createTeam(input: CreateTeamInput): Team!
+    createTeam(input: CreateTeamInput!): Team!
 
     # TODO 
-    updateTeam(input: UpdateTeamInput): Team!
-    deleteTeam(id: ID!): SuccessMessage
+    updateTeam(input: UpdateTeamInput!): Team!
+    deleteTeam(teamId: ID!): Team!
   }
   
   type Team {

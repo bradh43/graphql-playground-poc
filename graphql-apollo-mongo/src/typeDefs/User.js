@@ -16,7 +16,7 @@ export default gql`
   }
 
   input UpdateUserInput {
-    id: ID!
+    userId: ID!
     email: String
     first: String
     last: String
@@ -34,20 +34,20 @@ export default gql`
   }
 
   input DeleteUserInput {
-    id: ID!
+    userId: ID!
     email: String!
     username: String!
-    birthdate: String!
-    # password: String!
+    # birthdate: String!
+    password: String!
   }
 
 
   extend type Mutation {
-    createUser(input: CreateUserInput): User!
+    createUser(input: CreateUserInput!): User!
 
     # TODO
-    updateUser(input: UpdateUserInput): User!
-    deleteUser(input: DeleteUserInput): SuccessMessage
+    updateUser(input: UpdateUserInput!): User!
+    deleteUser(input: DeleteUserInput!): User!
   }
 
   type User {

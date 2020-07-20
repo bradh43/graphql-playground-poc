@@ -20,10 +20,10 @@ export default gql`
   # }
 
   extend type Mutation {
-    createComment(input: CreateCommentInput): Comment!
+    createComment(input: CreateCommentInput!): Comment!
 
     # TODO
-    deleteComment(id: ID!): SuccessMessage
+    deleteComment(commentId: ID!): Comment!
   }
 
   type Comment {

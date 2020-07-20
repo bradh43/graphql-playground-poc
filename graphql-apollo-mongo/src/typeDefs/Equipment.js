@@ -21,7 +21,7 @@ export default gql`
   }
 
   input UpdateEquipmentInput {
-    id: ID!
+    equipmentId: ID!
     name: String
     type: AllowedEquipment
     usage: DistanceInput
@@ -30,11 +30,11 @@ export default gql`
   }
 
   extend type Mutation {
-    createEquipment(input: CreateEquipmentInput): Equipment!
+    createEquipment(input: CreateEquipmentInput!): Equipment!
     
     # TODO
-    updateEquipment(input: UpdateEquipmentInput): Equipment!
-    deleteEquipment(id: ID!): SuccessMessage
+    updateEquipment(input: UpdateEquipmentInput!): Equipment!
+    deleteEquipment(equipmentId: ID!): Equipment!
   }
 
   type Equipment {

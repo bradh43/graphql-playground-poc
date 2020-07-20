@@ -44,7 +44,16 @@ export default {
       return post
     },
     updatePost: async (root, { input: args }, context, info) => {
-      // TODO
+      const { postId, activityIdList, ...body } = args
+
+      try {
+        const post = await Post.findByIdAndUpdate(postId, body, { new: true })
+        post.activityList.push(activityIdList)
+
+        return post
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     },
     deletePost: async (root, args, context, info) => {
       const { postId } = args
@@ -54,7 +63,7 @@ export default {
         // TODO: Checks, auth, validation
         await post.delete()
 
-        return { message: 'Post deleted', boolean: true }
+        return post
       } catch (e) {
         throw new ApolloError(e)
       }

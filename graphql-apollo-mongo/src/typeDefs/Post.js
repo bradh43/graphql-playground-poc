@@ -18,10 +18,9 @@ export default gql`
   }
 
   input UpdatePostInput {
-    id: ID!
+    postId: ID!
     title: String
     note: String
-    authorId: ID
     activityIdList: [ID!]
   }
   
@@ -30,7 +29,7 @@ export default gql`
 
     # TODO
     updatePost(input: UpdatePostInput): Post!
-    deletePost(id: ID!): SuccessMessage
+    deletePost(postId: ID!): Post!
 
     # Liking a post would be a LikePost mutation, not a post mutation
     # likePost(input: LikePostInput): Post! 

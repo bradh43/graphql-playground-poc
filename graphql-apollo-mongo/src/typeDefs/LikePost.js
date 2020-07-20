@@ -12,7 +12,7 @@ export default gql`
   }
 
   input DeleteLikePostInput {
-    id: ID!
+    likePostId: ID!
     postId: ID!
     userId: ID! 
   }

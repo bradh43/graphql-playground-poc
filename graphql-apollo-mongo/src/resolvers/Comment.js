@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UserInputError } from 'apollo-server-express'
+import { UserInputError, ApolloError } from 'apollo-server-express'
 import { Comment } from '../models'
 
 export default {
@@ -31,7 +31,17 @@ export default {
       return comment
     },
     deleteComment: async (root, args, context, info) => {
-      // TODO
+      const { commentId } = args
+
+      try {
+        const comment = await Comment.findById(commentId)
+        // TODO: Checks, auth, validation
+        await comment.delete()
+
+        return comment
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     }
   },
   Comment: {

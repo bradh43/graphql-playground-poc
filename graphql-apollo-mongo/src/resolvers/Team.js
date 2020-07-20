@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UserInputError } from 'apollo-server-express'
+import { UserInputError, ApolloError } from 'apollo-server-express'
 import { Team } from '../models'
 
 export default {
@@ -51,6 +51,18 @@ export default {
     },
     deleteTeam: async (root, args, context, info) => {
       // TODO
+      const { teamId } = args
+
+      try {
+        const team = await Team.findById(teamId)
+        // TODO: Checks, auth, validation
+        // you have to delete team and remove that team from each user on that team...
+        await team.delete()
+
+        return team
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     }
   },
   Team: {

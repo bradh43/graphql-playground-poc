@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UserInputError } from 'apollo-server-express'
+import { UserInputError, ApolloError } from 'apollo-server-express'
 import { User, Post } from '../models'
 
 export default {
@@ -39,7 +39,17 @@ export default {
       // TODO
     },
     deleteUser: async (root, { input: args }, context, info) => {
-      // TODO
+      const { userId, email, username, password } = args
+
+      try {
+        const user = await User.findById(userId)
+        // TODO: Checks, auth, validation
+        await user.delete()
+
+        return user
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     }
   },
   User: {
