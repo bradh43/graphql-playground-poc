@@ -30,7 +30,7 @@ export default {
   },
   Mutation: {
     createPost: async (root, { input: args }, context, info) => {
-      const { title, note, authorId, activityIdList } = args
+      const { title, note, authorId, activityIdList, tagIdList } = args
 
       if (!mongoose.Types.ObjectId.isValid(authorId)) {
         throw new UserInputError('ID is not a valid ObjectID')
@@ -42,13 +42,14 @@ export default {
         title,
         note,
         author: authorId,
-        activityList: activityIdList
+        activityList: activityIdList,
+        tagList: tagIdList
       })
 
       return post
     },
     updatePost: async (root, { input: args }, context, info) => {
-      const { postId, activityIdList, ...body } = args
+      const { postId, ...body } = args
 
       if (!mongoose.Types.ObjectId.isValid(postId)) {
         throw new UserInputError('ID is not a valid ObjectID')
@@ -56,9 +57,84 @@ export default {
 
       try {
         const post = await Post.update(postId, body, { new: true })
-        post.activityList = activityIdList
 
         return post
+      } catch (e) {
+        throw new ApolloError(e)
+      }
+    },
+    addActivity: async (root, args, context, info) => {
+      const { postId, activityId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(activityId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        // TODO: Checks, auth, validation
+        // TODO: test this
+        await Post.update(postId, {
+          $push: { activityList: activityId }
+        })
+
+        return { message: 'Tag Removed', success: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
+    },
+    removeActivity: async (root, args, context, info) => {
+      const { postId, activityId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(activityId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        // TODO: Checks, auth, validation
+        // TODO: test this
+        await Post.update(postId, {
+          $pull: { activityList: activityId }
+        })
+
+        return { message: 'Tag Removed', success: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
+    },
+    addTag: async (root, args, context, info) => {
+      const { postId, userId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(userId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        // TODO: Checks, auth, validation
+        // TODO: test this
+        await Post.update(postId, {
+          $push: { tagList: userId }
+        })
+
+        return { message: 'Tag Added', success: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
+    },
+    removeTag: async (root, args, context, info) => {
+      const { postId, userId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(userId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        // TODO: Checks, auth, validation
+        // TODO: test this
+        await Post.update(postId, {
+          $pull: { tagList: userId }
+        })
+
+        return { message: 'Tag Removed', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }
@@ -98,6 +174,10 @@ export default {
     },
     likeList: async (post, args, context, info) => {
       return LikePost.find({ post: post.id })
+    },
+    tagList: async (post, args, context, info) => {
+      await post.populate('tagList').execPopulate()
+      return post.tagList
     }
   }
 }

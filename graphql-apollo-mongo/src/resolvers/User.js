@@ -21,7 +21,7 @@ export default {
   },
   Mutation: {
     createUser: async (root, { input: args }, context, info) => {
-      const { email, first, last, username, password } = args
+      const { email, first, last, username, password, birthdate } = args
       // TODO: not auth
 
       // Perform validation
@@ -30,7 +30,8 @@ export default {
         first,
         last,
         username,
-        password
+        password,
+        birthdate
       })
 
       return user
@@ -38,10 +39,16 @@ export default {
     updateUser: async (root, { input: args }, context, info) => {
       // TODO
     },
+    followUser: async (root, { input: args }, context, info) => {
+      // TODO
+    },
+    unfollowUser: async (root, { input: args }, context, info) => {
+      // TODO
+    },
     deleteUser: async (root, { input: args }, context, info) => {
       const { userId } = args
       // TODO: add validaiton with email, username and password...
-      //, email, username, password <-- to confirm delete
+      //, email, password <-- to confirm delete
 
       if (!mongoose.Types.ObjectId.isValid(userId)) {
         throw new UserInputError('ID is not a valid ObjectID')
@@ -70,6 +77,14 @@ export default {
     equipmentList: async (user, args, context, info) => {
       await user.populate('equipmentList').execPopulate()
       return user.equipmentList
+    },
+    followerList: async (user, args, context, info) => {
+      await user.populate('followerList').execPopulate()
+      return user.followerList
+    },
+    followingList: async (user, args, context, info) => {
+      await user.populate('followingList').execPopulate()
+      return user.followingList
     }
   }
 }

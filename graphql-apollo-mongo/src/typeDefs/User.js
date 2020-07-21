@@ -13,13 +13,12 @@ export default gql`
     last: String!
     username: String!
     password: String!
+    birthdate: String
   }
 
   input DeleteUserInput {
     userId: ID!
     email: String!
-    username: String!
-    # birthdate: String!
     password: String!
   }
 
@@ -30,15 +29,20 @@ export default gql`
     password: String
     bio: String
     private: Boolean
-    teamList: [Team!]
+    teamList: [ID!]
   }
 
+  input FollowUserInput {
+    userId: ID!
+    followerId: ID!
+  }
 
   extend type Mutation {
     createUser(input: CreateUserInput!): User!
     updateUser(input: UpdateUserInput!): User!
-
     # TODO
+    followUser(input: FollowUserInput): SuccessMessage!
+    unfollowUser(input: FollowUserInput): SuccessMessage!
     deleteUser(input: DeleteUserInput!): SuccessMessage!
   }
 
@@ -55,6 +59,8 @@ export default gql`
     postList: [Post!]!
     teamList: [Team!]!
     equipmentList: [Equipment!]!
+    followerList: [User!]!
+    followingList: [User!]!
     createdAt: String!
     updatedAt: String!
   }

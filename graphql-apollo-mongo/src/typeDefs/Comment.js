@@ -14,15 +14,8 @@ export default gql`
     likeIdList: [ID!]!
   }
 
-  # input LikeCommentInput {
-  #   commentId: ID!
-  #   userId: ID!
-  # }
-
   extend type Mutation {
     createComment(input: CreateCommentInput!): Comment!
-
-    # TODO
     deleteComment(commentId: ID!): SuccessMessage!
   }
 

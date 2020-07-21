@@ -12,6 +12,7 @@ export default gql`
     note: String
     authorId: ID!
     activityIdList: [ID!]!
+    tagIdList: [ID!]!
     # posts wont have comments, scalability issue
     # commentIdList: [ID!]!
     # likeIdList: [ID!]!
@@ -21,16 +22,26 @@ export default gql`
     postId: ID!
     title: String
     note: String
-    activityIdList: [ID!]
+  }
+
+  input PostActivityInput {
+    postId: ID!
+    activityId: ID!
+  }
+
+  input PostTagInput {
+    postId: ID!
+    userId: ID!
   }
   
   extend type Mutation {
     createPost(input: CreatePostInput): Post!
     updatePost(input: UpdatePostInput): Post!
     deletePost(postId: ID!): SuccessMessage!
-
-    # Liking a post would be a LikePost mutation, not a post mutation
-    # likePost(input: LikePostInput): Post! 
+    addActivity(input: PostActivityInput): SuccessMessage!
+    removeActivity(input: PostActivityInput): SuccessMessage!
+    addTag(input: PostTagInput): SuccessMessage!
+    removeTag(input: PostTagInput): SuccessMessage!
   }
   
   type Post {
@@ -38,6 +49,7 @@ export default gql`
     title: String!
     note: String
     author: User!
+    tagList: [User!]!
     createdAt: String!
     updatedAt: String!
     activityList: [Activity!]!

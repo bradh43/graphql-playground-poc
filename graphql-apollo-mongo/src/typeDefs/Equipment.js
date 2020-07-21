@@ -31,8 +31,6 @@ export default gql`
 
   extend type Mutation {
     createEquipment(input: CreateEquipmentInput!): Equipment!
-    
-    # TODO
     updateEquipment(input: UpdateEquipmentInput!): Equipment!
     deleteEquipment(equipmentId: ID!): SuccessMessage!
   }

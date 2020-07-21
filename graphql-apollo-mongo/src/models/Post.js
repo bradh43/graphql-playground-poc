@@ -21,7 +21,6 @@ const PostSchema = Schema({
     type: ObjectId,
     ref: 'User'
   }]
-  // removed likes and comments due to scalability
 }, {
   timestamps: true
 })

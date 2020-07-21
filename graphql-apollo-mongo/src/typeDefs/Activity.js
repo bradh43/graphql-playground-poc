@@ -39,14 +39,12 @@ export default gql`
     type: AllowedActivity
     duration: Int
     distance: DistanceInput
-    equipmentId: ID
+    equipment: ID
     additionalInfo: AdditionalInfoInput
   }
 
   extend type Mutation {
     createActivity(input: CreateActivityInput!): Activity!
-
-    # TODO
     updatedActivity(input: UpdateActivityInput!): Activity!
     deleteActivity(activityId: ID!): SuccessMessage!
   }

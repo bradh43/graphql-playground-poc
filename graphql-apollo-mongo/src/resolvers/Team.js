@@ -57,6 +57,12 @@ export default {
     updateTeam: async (root, { input: args }, context, info) => {
       // TODO
     },
+    joinTeam: async (root, { input: args }, context, info) => {
+      // TODO
+    },
+    leaveTeam: async (root, { input: args }, context, info) => {
+      // TODO
+    },
     deleteTeam: async (root, args, context, info) => {
       // TODO
       const { teamId } = args

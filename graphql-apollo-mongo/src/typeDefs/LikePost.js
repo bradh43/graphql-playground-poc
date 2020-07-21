@@ -18,8 +18,6 @@ export default gql`
 
   extend type Mutation {
     createLikePost(input: CreateLikePostInput): LikePost!
-
-    #TODO
     deleteLikePost(input: DeleteLikePostInput): SuccessMessage!
   }
 

@@ -40,7 +40,15 @@ export default {
       return activity
     },
     updatedActivity: async (root, { input: args }, context, info) => {
-      // TODO
+      const { activityId, ...body } = args
+
+      try {
+        const activity = await Activity.update(activityId, body, { new: true })
+
+        return activity
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     },
     deleteActivity: async (root, args, context, info) => {
       const { activityId } = args

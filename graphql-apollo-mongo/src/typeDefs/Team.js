@@ -20,8 +20,11 @@ export default gql`
     name: String
     description: String
     ownerId: ID
-    adminIdList: [ID!]
-    memberIdList: [ID!]
+  }
+
+  input UserTeamInput {
+    userId: ID!
+    teamId: ID!
   }
 
   extend type Mutation {
@@ -29,6 +32,10 @@ export default gql`
 
     # TODO 
     updateTeam(input: UpdateTeamInput!): Team!
+    joinTeam(input: UserTeamInput): SuccessMessage!
+    leaveTeam(input: UserTeamInput): SuccessMessage!
+    addAdmin(input: UserTeamInput): SuccessMessage!
+    removeAdmin(input: UserTeamInput): SuccessMessage!
     deleteTeam(teamId: ID!): SuccessMessage!
   }
   

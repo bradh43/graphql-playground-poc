@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { UserInputError, ApolloError } from 'apollo-server-express'
-import { Equipment, User } from '../models'
+import { Equipment, User, Activity } from '../models'
 
 export default {
   Query: {
@@ -47,7 +47,15 @@ export default {
       return equipment
     },
     updateEquipment: async (root, { input: args }, context, info) => {
-      // TODO
+      const { equipmentId, ...body } = args
+
+      try {
+        const equipment = await Equipment.update(equipmentId, body, { new: true })
+
+        return equipment
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     },
     deleteEquipment: async (root, args, context, info) => {
       const { equipmentId } = args
@@ -60,7 +68,9 @@ export default {
         const equipment = await Equipment.findById(equipmentId)
         // TODO: Checks, auth, validation
 
-        // TODO: test this
+        // TODO: test these
+        await Activity.updateMany({ equipment: equipmentId })
+
         await User.update(equipment.owner, {
           $pull: { equipmentList: equipmentId }
         })
