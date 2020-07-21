@@ -42,7 +42,8 @@ export default {
         // TODO: Checks, auth, validation
 
         // Deleting all Likes for the comment
-        await LikeComment.deleteMany(commentId)
+        // TODO: test this
+        await LikeComment.deleteMany({ comment: commentId })
 
         await comment.delete()
 

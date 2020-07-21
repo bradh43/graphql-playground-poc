@@ -19,6 +19,14 @@ const UserSchema = Schema({
   equipmentList: [{
     type: ObjectId,
     ref: 'Equipment'
+  }],
+  followerList: [{
+    type: ObjectId,
+    ref: 'User'
+  }],
+  followingList: [{
+    type: ObjectId,
+    ref: 'User'
   }]
 }, {
   timestamps: true

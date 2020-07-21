@@ -73,7 +73,8 @@ export default {
       try {
         const post = await Post.findById(postId)
         // TODO: Checks, auth, validation
-        await LikePost.deleteMany(postId)
+        await LikePost.deleteMany({ post: postId })
+        await Comment.deleteMany({ post: postId })
 
         await post.delete()
 

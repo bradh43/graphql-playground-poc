@@ -16,6 +16,10 @@ const PostSchema = Schema({
   activityList: [{
     type: ObjectId,
     ref: 'Activity'
+  }],
+  tagList: [{
+    type: ObjectId,
+    ref: 'User'
   }]
   // removed likes and comments due to scalability
 }, {

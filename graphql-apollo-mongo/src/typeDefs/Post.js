@@ -26,8 +26,6 @@ export default gql`
   
   extend type Mutation {
     createPost(input: CreatePostInput): Post!
-
-    # TODO
     updatePost(input: UpdatePostInput): Post!
     deletePost(postId: ID!): SuccessMessage!
 

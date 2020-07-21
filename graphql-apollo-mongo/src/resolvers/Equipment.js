@@ -39,6 +39,11 @@ export default {
         owner: ownerId
       })
 
+      // TODO: test this
+      await User.update(ownerId, {
+        $push: { equipmentList: equipment.id }
+      })
+
       return equipment
     },
     updateEquipment: async (root, { input: args }, context, info) => {
