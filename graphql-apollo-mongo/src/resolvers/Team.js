@@ -20,20 +20,28 @@ export default {
       return Team.findById(id)
     },
     teamListByOwner: (root, args, context, info) => {
-      const { owner } = args
+      const { ownerId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(ownerId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
       // TODO: auth, projection, sanitization
 
-      if (!mongoose.Types.ObjectId.isValid(owner)) {
+      if (!mongoose.Types.ObjectId.isValid(ownerId)) {
         throw new UserInputError('ID is not a valid ObjectID')
       }
       // TODO: This me need fixing
-      return Team.find({ owner: owner })
+      return Team.find({ owner: ownerId })
     }
   },
   Mutation: {
     createTeam: async (root, { input: args }, context, info) => {
       const { name, description, ownerId, adminIdList, memberIdList } = args
       // TODO: auth
+
+      if (!mongoose.Types.ObjectId.isValid(ownerId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
 
       // Perform validation
       const team = await Team.create({
@@ -52,6 +60,10 @@ export default {
     deleteTeam: async (root, args, context, info) => {
       // TODO
       const { teamId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(teamId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
 
       try {
         const team = await Team.findById(teamId)

@@ -24,6 +24,10 @@ export default {
       const { type, duration, distance, equipmentId, additionalInfo } = args
       // TODO: auth
 
+      if (!mongoose.Types.ObjectId.isValid(equipmentId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
       // Perform validation
       const activity = await Activity.create({
         type,
@@ -40,6 +44,10 @@ export default {
     },
     deleteActivity: async (root, args, context, info) => {
       const { activityId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(activityId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
 
       try {
         const activity = await Activity.findById(activityId)

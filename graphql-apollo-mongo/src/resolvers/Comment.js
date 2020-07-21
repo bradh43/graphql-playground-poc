@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { UserInputError, ApolloError } from 'apollo-server-express'
-import { Comment } from '../models'
+import { Comment, LikeComment } from '../models'
 
 export default {
   Query: {
@@ -20,6 +20,10 @@ export default {
       const { note, postId, authorId, likeIdList } = args
       // TODO: auth
 
+      if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(authorId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
       // Perform validation
       const comment = await Comment.create({
         note,
@@ -36,6 +40,10 @@ export default {
       try {
         const comment = await Comment.findById(commentId)
         // TODO: Checks, auth, validation
+
+        // Deleting all Likes for the comment
+        await LikeComment.deleteMany(commentId)
+
         await comment.delete()
 
         return { message: 'Comment Deleted', success: true }
@@ -50,8 +58,7 @@ export default {
       return comment.author
     },
     likeList: async (comment, args, context, info) => {
-      await comment.populate('likeList').execPopulate()
-      return comment.likeList
+      return LikeComment.find({ comment: comment.id })
     }
   }
 }

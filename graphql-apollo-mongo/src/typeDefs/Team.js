@@ -4,7 +4,7 @@ export default gql`
   extend type Query {
     team(id: ID!): Team
     teamList(id: ID!): [Team!]!
-    teamListByOwner(userId: ID!): [Team!]!
+    teamListByOwner(ownerId: ID!): [Team!]!
   }
 
   input CreateTeamInput {
@@ -29,7 +29,7 @@ export default gql`
 
     # TODO 
     updateTeam(input: UpdateTeamInput!): Team!
-    deleteTeam(teamId: ID!): Team!
+    deleteTeam(teamId: ID!): SuccessMessage!
   }
   
   type Team {

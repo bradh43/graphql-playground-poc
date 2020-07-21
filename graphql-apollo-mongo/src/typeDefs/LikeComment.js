@@ -13,16 +13,13 @@ export default gql`
   }
 
   input DeleteLikeCommentInput {
-    likeCommentId: ID!
     commentId: ID!
     userId: ID! 
   }
 
   extend type Mutation {
     createLikeComment(input: CreateLikeCommentInput): LikeComment!
-
-    # TODO
-    deleteLikeComment(input: DeleteLikeCommentInput): SuccessMessage
+    deleteLikeComment(input: DeleteLikeCommentInput): SuccessMessage!
   }
 
   type LikeComment {

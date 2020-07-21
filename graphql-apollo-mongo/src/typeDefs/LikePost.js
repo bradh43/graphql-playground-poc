@@ -12,7 +12,6 @@ export default gql`
   }
 
   input DeleteLikePostInput {
-    likePostId: ID!
     postId: ID!
     userId: ID! 
   }
@@ -21,7 +20,7 @@ export default gql`
     createLikePost(input: CreateLikePostInput): LikePost!
 
     #TODO
-    deleteLikePost(input: DeleteLikePostInput): SuccessMessage
+    deleteLikePost(input: DeleteLikePostInput): SuccessMessage!
   }
 
   type LikePost {

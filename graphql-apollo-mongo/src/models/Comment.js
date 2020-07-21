@@ -11,11 +11,7 @@ const CommentSchema = Schema({
   author: {
     type: ObjectId,
     ref: 'User'
-  },
-  likeList: [{
-    type: ObjectId,
-    ref: 'User'
-  }]
+  }
 }, {
   timestamps: true
 })

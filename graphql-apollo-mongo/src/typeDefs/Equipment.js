@@ -34,7 +34,7 @@ export default gql`
     
     # TODO
     updateEquipment(input: UpdateEquipmentInput!): Equipment!
-    deleteEquipment(equipmentId: ID!): Equipment!
+    deleteEquipment(equipmentId: ID!): SuccessMessage!
   }
 
   type Equipment {

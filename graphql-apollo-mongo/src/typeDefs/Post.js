@@ -29,7 +29,7 @@ export default gql`
 
     # TODO
     updatePost(input: UpdatePostInput): Post!
-    deletePost(postId: ID!): Post!
+    deletePost(postId: ID!): SuccessMessage!
 
     # Liking a post would be a LikePost mutation, not a post mutation
     # likePost(input: LikePostInput): Post! 

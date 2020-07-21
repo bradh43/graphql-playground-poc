@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UserInputError } from 'apollo-server-express'
+import { UserInputError, ApolloError } from 'apollo-server-express'
 import { LikeComment } from '../models'
 
 export default {
@@ -28,6 +28,10 @@ export default {
   Mutation: {
     createLikeComment: async (root, { input: args }, context, info) => {
       const { commentId, userId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(commentId) || !mongoose.Types.ObjectId.isValid(userId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
       // TODO: auth
 
       // Perform validation
@@ -39,7 +43,20 @@ export default {
       return likeComment
     },
     deleteLikeComment: async (root, { input: args }, context, info) => {
-      // TODO
+      const { commentId, userId } = args
+      // TODO: auth
+
+      if (!mongoose.Types.ObjectId.isValid(commentId) || !mongoose.Types.ObjectId.isValid(userId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        await LikeComment.deleteOne({ comment: commentId, user: userId })
+
+        return { message: 'Like Removed', success: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     }
   },
   LikeComment: {

@@ -23,7 +23,7 @@ export default gql`
     createComment(input: CreateCommentInput!): Comment!
 
     # TODO
-    deleteComment(commentId: ID!): Comment!
+    deleteComment(commentId: ID!): SuccessMessage!
   }
 
   type Comment {

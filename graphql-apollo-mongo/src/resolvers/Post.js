@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { UserInputError, ApolloError } from 'apollo-server-express'
-import { Post, Comment } from '../models'
+import { Post, Comment, LikePost } from '../models'
 
 export default {
   Query: {
@@ -31,6 +31,10 @@ export default {
   Mutation: {
     createPost: async (root, { input: args }, context, info) => {
       const { title, note, authorId, activityIdList } = args
+
+      if (!mongoose.Types.ObjectId.isValid(authorId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
       // TODO: auth
 
       // Perform validation
@@ -46,6 +50,10 @@ export default {
     updatePost: async (root, { input: args }, context, info) => {
       const { postId, activityIdList, ...body } = args
 
+      if (!mongoose.Types.ObjectId.isValid(postId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
       try {
         const post = await Post.update(postId, body, { new: true })
         post.activityList = activityIdList
@@ -58,9 +66,15 @@ export default {
     deletePost: async (root, args, context, info) => {
       const { postId } = args
 
+      if (!mongoose.Types.ObjectId.isValid(postId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
       try {
         const post = await Post.findById(postId)
         // TODO: Checks, auth, validation
+        await LikePost.deleteMany(postId)
+
         await post.delete()
 
         return { message: 'Post Deleted', success: true }
@@ -82,7 +96,7 @@ export default {
       return Comment.find({ post: post.id })
     },
     likeList: async (post, args, context, info) => {
-      // TODO
+      return LikePost.find({ post: post.id })
     }
   }
 }

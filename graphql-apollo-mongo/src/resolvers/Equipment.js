@@ -25,6 +25,10 @@ export default {
       const { name, type, usage, limit, active, ownerId } = args
       // TODO: auth
 
+      if (!mongoose.Types.ObjectId.isValid(ownerId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
       // Perform validation
       const equipment = await Equipment.create({
         name,
@@ -42,6 +46,10 @@ export default {
     },
     deleteEquipment: async (root, args, context, info) => {
       const { equipmentId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(equipmentId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
 
       try {
         const equipment = await Equipment.findById(equipmentId)

@@ -27,6 +27,7 @@ export default gql`
 
   input CreateActivityInput {
     type: AllowedActivity!
+    postId: ID!
     duration: Int
     distance: DistanceInput
     equipmentId: ID

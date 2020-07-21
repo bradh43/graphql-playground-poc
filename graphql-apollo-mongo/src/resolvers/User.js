@@ -40,6 +40,10 @@ export default {
     },
     deleteUser: async (root, { input: args }, context, info) => {
       const { userId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
       // TODO: add validaiton with email, username and password...
       //, email, username, password
 
