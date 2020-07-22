@@ -55,13 +55,137 @@ export default {
       return team
     },
     updateTeam: async (root, { input: args }, context, info) => {
-      // TODO
+      const { teamId, ...body } = args
+
+      if (!mongoose.Types.ObjectId.isValid(teamId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        const team = await Team.update(teamId, body, { new: true })
+
+        return team
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     },
     joinTeam: async (root, { input: args }, context, info) => {
-      // TODO
+      const { userId, teamId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(teamId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        // TODO: Checks, auth, validation
+        // TODO: test this
+
+        // User is following someone
+        await Team.update(teamId, {
+          $push: { memberList: userId }
+        })
+
+        // remove from admin list if in admin list
+
+        // FollowingID gets a follower
+        await User.update(userId, {
+          $push: { teamList: teamId }
+        })
+
+        return { message: 'Joined Team', success: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     },
     leaveTeam: async (root, { input: args }, context, info) => {
-      // TODO
+      const { userId, teamId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(teamId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        // TODO: Checks, auth, validation
+        // TODO: test this
+
+        // Actually check if in team first.
+        await Team.update(teamId, {
+          $pull: { memberList: userId }
+        })
+
+        // FollowingID gets a follower
+        await User.update(userId, {
+          $pull: { teamList: teamId }
+        })
+
+        return { message: 'Left Team', success: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
+    },
+    addAdmin: async (root, args, context, info) => {
+      const { userId, teamId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(teamId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        // This is assuming that you are a member before u can be an admin
+        // TODO: Checks, auth, validation
+        // TODO: test this
+
+        // User is following someone
+        await Team.update(teamId, {
+          $pull: { memberList: userId }
+        })
+
+        await Team.update(teamId, {
+          $push: { adminList: userId }
+        })
+
+        // remove from member list if in member list
+        // only push into teamList if it doesn't exist beforehand
+        // FollowingID gets a follower
+        // await User.update(userId, {
+        //   $push: { teamList: teamId }
+        // })
+
+        return { message: 'Admin Added', success: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
+    },
+    removeAdmin: async (root, args, context, info) => {
+      const { userId, teamId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(teamId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        // TODO: Checks, auth, validation
+        // TODO: test this
+
+        // Actually check if in team first.
+        // Doesn't remove from team
+        await Team.update(teamId, {
+          $pull: { adminList: userId }
+        })
+
+        await Team.update(teamId, {
+          $push: { memberList: userId }
+        })
+
+        // FollowingID gets a follower
+        // await User.update(userId, {
+        //   $pull: { teamList: teamId }
+        // })
+
+        return { message: 'Admin Removed', success: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     },
     deleteTeam: async (root, args, context, info) => {
       // TODO
@@ -80,9 +204,14 @@ export default {
         await User.updateMany(team.memberList, {
           $pull: { teamList: teamId }
         })
+
+        await User.updateMany(team.adminList, {
+          $pull: { teamList: teamId }
+        })
+
         await team.delete()
 
-        return { message: 'Team Deleted', success: true }
+        return { message: 'Team Deleted, Users Removed', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }

@@ -37,13 +37,75 @@ export default {
       return user
     },
     updateUser: async (root, { input: args }, context, info) => {
-      // TODO
+      const { userId, ...body } = args
+
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        const user = await User.update(userId, body, { new: true })
+
+        return user
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     },
     followUser: async (root, { input: args }, context, info) => {
-      // TODO
+      const { userId, followerId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(followerId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        // TODO: Checks, auth, validation
+        // TODO: test this
+
+        // TODO: check if user is following in the first place.
+
+        // User is following someone
+        await User.update(userId, {
+          $push: { followingList: followerId }
+        })
+
+        // FollowingID gets a follower
+        await User.update(followerId, {
+          $push: { followerList: userId }
+        })
+
+        return { message: 'Follower Added', success: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     },
     unfollowUser: async (root, { input: args }, context, info) => {
-      // TODO
+      const { userId, followerId } = args
+
+      if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(followerId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      try {
+        // TODO: Checks, auth, validation
+        // TODO: test this
+
+        // TODO: check if user is following in the first place.
+
+        // User is unfollowing someone
+        await User.update(userId, {
+          $pull: { followingList: followerId }
+        })
+
+        // FollowingID loses a follower
+        await User.update(followerId, {
+          $pull: { followerList: userId }
+        })
+
+        return { message: 'Follower Removed', success: true }
+      } catch (e) {
+        throw new ApolloError(e)
+      }
     },
     deleteUser: async (root, { input: args }, context, info) => {
       const { userId } = args

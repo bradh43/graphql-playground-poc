@@ -29,7 +29,6 @@ export default gql`
     password: String
     bio: String
     private: Boolean
-    teamList: [ID!]
   }
 
   input FollowUserInput {
@@ -40,7 +39,6 @@ export default gql`
   extend type Mutation {
     createUser(input: CreateUserInput!): User!
     updateUser(input: UpdateUserInput!): User!
-    # TODO
     followUser(input: FollowUserInput): SuccessMessage!
     unfollowUser(input: FollowUserInput): SuccessMessage!
     deleteUser(input: DeleteUserInput!): SuccessMessage!

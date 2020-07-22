@@ -29,8 +29,6 @@ export default gql`
 
   extend type Mutation {
     createTeam(input: CreateTeamInput!): Team!
-
-    # TODO 
     updateTeam(input: UpdateTeamInput!): Team!
     joinTeam(input: UserTeamInput): SuccessMessage!
     leaveTeam(input: UserTeamInput): SuccessMessage!
