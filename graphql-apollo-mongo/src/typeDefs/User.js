@@ -50,7 +50,7 @@ export default gql`
     first: String!
     last: String!
     username: String!
-    profilePictureURL: String!
+    profilePictureURL: String
     birthdate: String
     bio: String
     private: Boolean!

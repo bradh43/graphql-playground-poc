@@ -31,7 +31,8 @@ export default {
         last,
         username,
         password,
-        birthdate
+        birthdate,
+        private: false
       })
 
       return user
