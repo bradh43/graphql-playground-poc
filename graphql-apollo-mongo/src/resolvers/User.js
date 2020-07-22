@@ -23,6 +23,7 @@ export default {
     createUser: async (root, { input: args }, context, info) => {
       const { email, first, last, username, password, birthdate } = args
       // TODO: not auth
+      // TODO make sure email is not already taken, since its the unique value
 
       // Perform validation
       const user = await User.create({
@@ -32,6 +33,11 @@ export default {
         username,
         password,
         birthdate,
+        postList: [],
+        teamList: [],
+        equipmentList: [],
+        followerList: [],
+        followingList: [],
         private: false
       })
 

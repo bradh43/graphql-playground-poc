@@ -22,7 +22,7 @@ export default {
   },
   Mutation: {
     createEquipment: async (root, { input: args }, context, info) => {
-      const { name, type, usage, limit, active, ownerId } = args
+      const { name, type, limit, ownerId } = args
       // TODO: auth
 
       if (!mongoose.Types.ObjectId.isValid(ownerId)) {
@@ -33,15 +33,14 @@ export default {
       const equipment = await Equipment.create({
         name,
         type,
-        usage,
+        usage: { value: 0.0, unit: 'MI' },
         limit,
-        active,
+        active: true,
         owner: ownerId
       })
 
-      // TODO: test this
-      await User.update(ownerId, {
-        $push: { equipmentList: equipment.id }
+      await User.findOneAndUpdate({ _id: { $eq: ownerId } }, {
+        $push: { equipmentList: equipment._id }
       })
 
       return equipment

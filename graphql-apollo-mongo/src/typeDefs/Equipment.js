@@ -14,9 +14,7 @@ export default gql`
   input CreateEquipmentInput {
     name: String!
     type: AllowedEquipment!
-    usage: DistanceInput!
     limit: DistanceInput!
-    active: Boolean!
     ownerId: ID!
   }
 
