@@ -29,7 +29,7 @@ export default gql`
 
   extend type Mutation {
     createEquipment(input: CreateEquipmentInput!): Equipment!
-    updateEquipment(input: UpdateEquipmentInput!): Equipment!
+    updateEquipment(input: UpdateEquipmentInput!): Equipment
     deleteEquipment(equipmentId: ID!): SuccessMessage!
   }
 

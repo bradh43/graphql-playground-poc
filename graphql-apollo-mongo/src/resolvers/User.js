@@ -33,7 +33,6 @@ export default {
         username,
         password,
         birthdate,
-        postList: [],
         teamList: [],
         equipmentList: [],
         followerList: [],

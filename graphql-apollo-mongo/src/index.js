@@ -18,7 +18,8 @@ import { APP_PORT, IN_PROD } from './config'
 
     await mongoose.connect(uri, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: false
     }).then(() => {
       console.log('Connected to MongoDB...')
     })

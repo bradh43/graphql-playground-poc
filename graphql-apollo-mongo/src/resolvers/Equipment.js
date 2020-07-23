@@ -39,7 +39,7 @@ export default {
         owner: ownerId
       })
 
-      await User.findOneAndUpdate({ _id: { $eq: ownerId } }, {
+      await User.findByIdAndUpdate(ownerId, {
         $push: { equipmentList: equipment._id }
       })
 
@@ -49,7 +49,7 @@ export default {
       const { equipmentId, ...body } = args
 
       try {
-        const equipment = await Equipment.update(equipmentId, body, { new: true })
+        const equipment = await Equipment.findByIdAndUpdate(equipmentId, body, { new: true })
 
         return equipment
       } catch (e) {
