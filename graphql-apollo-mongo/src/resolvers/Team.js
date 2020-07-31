@@ -36,7 +36,7 @@ export default {
   },
   Mutation: {
     createTeam: async (root, { input: args }, context, info) => {
-      const { name, description, ownerId, adminIdList, memberIdList } = args
+      const { name, description, ownerId } = args
       // TODO: auth
 
       if (!mongoose.Types.ObjectId.isValid(ownerId)) {
@@ -48,8 +48,12 @@ export default {
         name,
         description,
         owner: ownerId,
-        adminList: adminIdList,
-        memberList: memberIdList
+        adminList: [ownerId],
+        memberList: []
+      })
+
+      await User.findByIdAndUpdate(ownerId, {
+        $addToSet: { teamList: team._id }
       })
 
       return team
@@ -62,7 +66,7 @@ export default {
       }
 
       try {
-        const team = await Team.update(teamId, body, { new: true })
+        const team = await Team.findByIdAndUpdate(teamId, body, { new: true })
 
         return team
       } catch (e) {
@@ -81,15 +85,15 @@ export default {
         // TODO: test this
 
         // User is following someone
-        await Team.update(teamId, {
-          $push: { memberList: userId }
+        await Team.findByIdAndUpdate(teamId, {
+          $addToSet: { memberList: userId }
         })
 
         // remove from admin list if in admin list
 
         // FollowingID gets a follower
-        await User.update(userId, {
-          $push: { teamList: teamId }
+        await User.findByIdAndUpdate(userId, {
+          $addToSet: { teamList: teamId }
         })
 
         return { message: 'Joined Team', success: true }
@@ -109,12 +113,12 @@ export default {
         // TODO: test this
 
         // Actually check if in team first.
-        await Team.update(teamId, {
+        await Team.findByIdAndUpdate(teamId, {
           $pull: { memberList: userId }
         })
 
         // FollowingID gets a follower
-        await User.update(userId, {
+        await User.findByIdAndUpdate(userId, {
           $pull: { teamList: teamId }
         })
 
@@ -123,10 +127,14 @@ export default {
         throw new ApolloError(e)
       }
     },
-    addAdmin: async (root, args, context, info) => {
+    addAdmin: async (root, { input: args }, context, info) => {
       const { userId, teamId } = args
 
-      if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(teamId)) {
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      if (!mongoose.Types.ObjectId.isValid(teamId)) {
         throw new UserInputError('ID is not a valid ObjectID')
       }
 
@@ -135,13 +143,9 @@ export default {
         // TODO: Checks, auth, validation
         // TODO: test this
 
-        // User is following someone
-        await Team.update(teamId, {
-          $pull: { memberList: userId }
-        })
-
-        await Team.update(teamId, {
-          $push: { adminList: userId }
+        await Team.findByIdAndUpdate(teamId, {
+          $pull: { memberList: userId },
+          $addToSet: { adminList: userId }
         })
 
         // remove from member list if in member list
@@ -156,10 +160,14 @@ export default {
         throw new ApolloError(e)
       }
     },
-    removeAdmin: async (root, args, context, info) => {
+    removeAdmin: async (root, { input: args }, context, info) => {
       const { userId, teamId } = args
 
-      if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(teamId)) {
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      if (!mongoose.Types.ObjectId.isValid(teamId)) {
         throw new UserInputError('ID is not a valid ObjectID')
       }
 
@@ -169,12 +177,9 @@ export default {
 
         // Actually check if in team first.
         // Doesn't remove from team
-        await Team.update(teamId, {
-          $pull: { adminList: userId }
-        })
-
-        await Team.update(teamId, {
-          $push: { memberList: userId }
+        await Team.findByIdAndUpdate(teamId, {
+          $pull: { adminList: userId },
+          $addToSet: { memberList: userId }
         })
 
         // FollowingID gets a follower
@@ -201,13 +206,13 @@ export default {
         // you have to delete team and remove that team from each user on that team...
 
         // TODO: test this
-        await User.updateMany(team.memberList, {
+        await User.findByIdAndUpdate({ $in: team.memberList.concat(team.adminList) }, {
           $pull: { teamList: teamId }
         })
 
-        await User.updateMany(team.adminList, {
-          $pull: { teamList: teamId }
-        })
+        // await User.findByIdAndUpdate({ $in: team.adminList }, {
+        //   $pull: { teamList: teamId }
+        // })
 
         await team.delete()
 

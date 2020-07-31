@@ -50,7 +50,7 @@ export default {
       }
 
       try {
-        const user = await User.update(userId, body, { new: true })
+        const user = await User.findByIdAndUpdate(userId, body, { new: true })
 
         return user
       } catch (e) {
@@ -71,13 +71,13 @@ export default {
         // TODO: check if user is following in the first place.
 
         // User is following someone
-        await User.update(userId, {
-          $push: { followingList: followerId }
+        await User.findByIdAndUpdate(userId, {
+          $addToSet: { followingList: followerId }
         })
 
         // FollowingID gets a follower
-        await User.update(followerId, {
-          $push: { followerList: userId }
+        await User.findByIdAndUpdate(followerId, {
+          $addToSet: { followerList: userId }
         })
 
         return { message: 'Follower Added', success: true }
@@ -99,12 +99,12 @@ export default {
         // TODO: check if user is following in the first place.
 
         // User is unfollowing someone
-        await User.update(userId, {
+        await User.findByIdAndUpdate(userId, {
           $pull: { followingList: followerId }
         })
 
         // FollowingID loses a follower
-        await User.update(followerId, {
+        await User.findByIdAndUpdate(followerId, {
           $pull: { followerList: userId }
         })
 

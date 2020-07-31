@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express'
 export default gql`
   extend type Query {
     team(id: ID!): Team
-    teamList(id: ID!): [Team!]!
+    teamList: [Team!]!
     teamListByOwner(ownerId: ID!): [Team!]!
   }
 
@@ -11,8 +11,6 @@ export default gql`
     name: String!
     description: String
     ownerId: ID!
-    adminIdList: [ID!]!
-    memberIdList: [ID!]!
   }
 
   input UpdateTeamInput {

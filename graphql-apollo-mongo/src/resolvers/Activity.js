@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { UserInputError, ApolloError } from 'apollo-server-express'
-import { Activity, Post } from '../models'
+import { Activity } from '../models'
 
 export default {
   Query: {
@@ -24,10 +24,9 @@ export default {
       const { type, duration, distance, equipmentId, additionalInfo } = args
       // TODO: auth
 
-      if (!mongoose.Types.ObjectId.isValid(equipmentId)) {
+      if (equipmentId && !mongoose.Types.ObjectId.isValid(equipmentId)) {
         throw new UserInputError('ID is not a valid ObjectID')
       }
-
       // Perform validation
       const activity = await Activity.create({
         type,
@@ -39,36 +38,13 @@ export default {
 
       return activity
     },
-    updatedActivity: async (root, { input: args }, context, info) => {
+    updateActivity: async (root, { input: args }, context, info) => {
       const { activityId, ...body } = args
 
       try {
-        const activity = await Activity.update(activityId, body, { new: true })
+        const activity = await Activity.findByIdAndUpdate(activityId, body, { new: true })
 
         return activity
-      } catch (e) {
-        throw new ApolloError(e)
-      }
-    },
-    deleteActivity: async (root, args, context, info) => {
-      const { activityId } = args
-
-      if (!mongoose.Types.ObjectId.isValid(activityId)) {
-        throw new UserInputError('ID is not a valid ObjectID')
-      }
-
-      try {
-        const activity = await Activity.findById(activityId)
-        // TODO: Checks, auth, validation
-
-        // TODO: test this
-        await Post.update(activity.post, {
-          $pull: { activityList: activityId }
-        })
-
-        await activity.delete()
-
-        return { message: 'Activity Deleted', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }

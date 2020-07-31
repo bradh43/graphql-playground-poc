@@ -11,7 +11,6 @@ export default gql`
     note: String!
     postId: ID!
     authorId: ID! 
-    likeIdList: [ID!]!
   }
 
   extend type Mutation {

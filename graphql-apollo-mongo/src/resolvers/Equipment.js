@@ -40,7 +40,7 @@ export default {
       })
 
       await User.findByIdAndUpdate(ownerId, {
-        $push: { equipmentList: equipment._id }
+        $addToSet: { equipmentList: equipment._id }
       })
 
       return equipment
@@ -68,9 +68,9 @@ export default {
         // TODO: Checks, auth, validation
 
         // TODO: test these
-        await Activity.updateMany({ equipment: equipmentId })
+        await Activity.where('equipment', equipmentId).update({ $set: { equipment: null } })
 
-        await User.update(equipment.owner, {
+        await User.findByIdAndUpdate(equipment.owner, {
           $pull: { equipmentList: equipmentId }
         })
 

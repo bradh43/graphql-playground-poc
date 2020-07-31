@@ -13,9 +13,6 @@ export default gql`
     authorId: ID!
     activityIdList: [ID!]!
     tagIdList: [ID!]!
-    # posts wont have comments, scalability issue
-    # commentIdList: [ID!]!
-    # likeIdList: [ID!]!
   }
 
   input UpdatePostInput {

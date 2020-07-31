@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { UserInputError, ApolloError } from 'apollo-server-express'
-import { Post, Comment, LikePost } from '../models'
+import { Post, Comment, LikePost, Activity } from '../models'
 
 export default {
   Query: {
@@ -56,63 +56,77 @@ export default {
       }
 
       try {
-        const post = await Post.update(postId, body, { new: true })
+        const post = await Post.findByIdAndUpdate(postId, body, { new: true })
 
         return post
       } catch (e) {
         throw new ApolloError(e)
       }
     },
-    addActivity: async (root, args, context, info) => {
+    addActivity: async (root, { input: args }, context, info) => {
       const { postId, activityId } = args
 
-      if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(activityId)) {
+      if (!mongoose.Types.ObjectId.isValid(postId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      if (!mongoose.Types.ObjectId.isValid(activityId)) {
         throw new UserInputError('ID is not a valid ObjectID')
       }
 
       try {
         // TODO: Checks, auth, validation
         // TODO: test this
-        await Post.update(postId, {
-          $push: { activityList: activityId }
+        await Post.findByIdAndUpdate(postId, {
+          $addToSet: { activityList: activityId }
         })
 
-        return { message: 'Tag Removed', success: true }
+        return { message: 'Activity Added', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }
     },
-    removeActivity: async (root, args, context, info) => {
+    removeActivity: async (root, { input: args }, context, info) => {
       const { postId, activityId } = args
 
-      if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(activityId)) {
+      if (!mongoose.Types.ObjectId.isValid(postId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      if (!mongoose.Types.ObjectId.isValid(activityId)) {
         throw new UserInputError('ID is not a valid ObjectID')
       }
 
       try {
         // TODO: Checks, auth, validation
         // TODO: test this
-        await Post.update(postId, {
+        await Post.findByIdAndUpdate(postId, {
           $pull: { activityList: activityId }
         })
 
-        return { message: 'Tag Removed', success: true }
+        await Activity.findByIdAndDelete(activityId)
+
+        return { message: 'Activity Removed and Deleted', success: true }
       } catch (e) {
         throw new ApolloError(e)
       }
     },
-    addTag: async (root, args, context, info) => {
+    addTag: async (root, { input: args }, context, info) => {
       const { postId, userId } = args
 
-      if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(userId)) {
+      if (!mongoose.Types.ObjectId.isValid(postId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
         throw new UserInputError('ID is not a valid ObjectID')
       }
 
       try {
         // TODO: Checks, auth, validation
         // TODO: test this
-        await Post.update(postId, {
-          $push: { tagList: userId }
+        await Post.findByIdAndUpdate(postId, {
+          $addToSet: { tagList: userId }
         })
 
         return { message: 'Tag Added', success: true }
@@ -120,7 +134,7 @@ export default {
         throw new ApolloError(e)
       }
     },
-    removeTag: async (root, args, context, info) => {
+    removeTag: async (root, { input: args }, context, info) => {
       const { postId, userId } = args
 
       if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(userId)) {
@@ -130,7 +144,7 @@ export default {
       try {
         // TODO: Checks, auth, validation
         // TODO: test this
-        await Post.update(postId, {
+        await Post.findByIdAndUpdate(postId, {
           $pull: { tagList: userId }
         })
 

@@ -17,10 +17,14 @@ export default {
   },
   Mutation: {
     createComment: async (root, { input: args }, context, info) => {
-      const { note, postId, authorId, likeIdList } = args
+      const { note, postId, authorId } = args
       // TODO: auth
 
-      if (!mongoose.Types.ObjectId.isValid(postId) || !mongoose.Types.ObjectId.isValid(authorId)) {
+      if (!mongoose.Types.ObjectId.isValid(postId)) {
+        throw new UserInputError('ID is not a valid ObjectID')
+      }
+
+      if (!mongoose.Types.ObjectId.isValid(authorId)) {
         throw new UserInputError('ID is not a valid ObjectID')
       }
 
@@ -29,7 +33,7 @@ export default {
         note,
         post: postId,
         author: authorId,
-        likeList: likeIdList
+        likeList: []
       })
 
       return comment
