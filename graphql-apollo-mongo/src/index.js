@@ -14,13 +14,14 @@ import { APP_PORT, IN_PROD } from './config'
     // const uri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`
 
     // Local MongoDB
-    const uri = 'mongodb://localhost:27017/test'
-
-    await mongoose.connect(uri, {
+    const uri = 'mongodb://localhost:27017/testDB'
+    const options = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false
-    }).then(() => {
+    }
+
+    await mongoose.connect(uri, options).then(() => {
       console.log('Connected to MongoDB...')
     })
 
