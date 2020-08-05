@@ -7,6 +7,11 @@ export default gql`
     postListByUserId(userId: ID!): [Post!]!
   }
 
+  extend type Subscription {
+    onPostCreate: Post
+    onPostCreateByFollowingList(followingList: [ID!]!): Post
+  }
+
   input CreatePostInput {
     title: String!
     note: String

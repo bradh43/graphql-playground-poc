@@ -1,8 +1,26 @@
 import mongoose from 'mongoose'
-import { UserInputError, ApolloError } from 'apollo-server-express'
+import { UserInputError, ApolloError, withFilter } from 'apollo-server-express'
 import { Post, Comment, LikePost, Activity } from '../models'
+import pubsub from './subscriptions'
+
+const NEW_POST_CREATED = 'NEW_POST_CREATED'
+const NEW_POST_BY_FOLLOWING = 'NEW_POST_BY_FOLLOWING'
 
 export default {
+  Subscription: {
+    onPostCreate: {
+      // Additional event labels can be passed to asyncIterator creation
+      subscribe: () => pubsub.asyncIterator([NEW_POST_CREATED])
+    },
+    onPostCreateByFollowingList: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(NEW_POST_BY_FOLLOWING),
+        (payload, { followingList }) => {
+          return followingList.includes(payload.authorId)
+        }
+      )
+    }
+  },
   Query: {
     postList: (root, args, context, info) => {
       // TODO: auth, projection, pagination
@@ -45,7 +63,8 @@ export default {
         activityList: activityIdList,
         tagList: tagIdList
       })
-
+      pubsub.publish(NEW_POST_CREATED, { onPostCreate: post })
+      pubsub.publish(NEW_POST_BY_FOLLOWING, { authorId: authorId, onPostCreateByFollowingList: post })
       return post
     },
     updatePost: async (root, { input: args }, context, info) => {

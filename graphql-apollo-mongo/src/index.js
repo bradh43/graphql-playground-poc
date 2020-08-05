@@ -1,4 +1,5 @@
 import { ApolloServer } from 'apollo-server-express'
+import http from 'http'
 import mongoose from 'mongoose'
 import express from 'express'
 import typeDefs from './typeDefs'
@@ -37,9 +38,13 @@ import { APP_PORT, IN_PROD } from './config'
 
     server.applyMiddleware({ app })
 
-    app.listen({ port: APP_PORT }, () =>
+    const httpServer = http.createServer(app)
+    server.installSubscriptionHandlers(httpServer)
+
+    httpServer.listen({ port: APP_PORT }, () => {
       console.log(`🚀 Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`)
-    )
+      console.log(`🚀 Subscriptions ready at ws://localhost:${APP_PORT}${server.subscriptionsPath}`)
+    })
   } catch (e) {
     console.error(e)
   }
