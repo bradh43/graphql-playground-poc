@@ -2,19 +2,22 @@ import mongoose from 'mongoose'
 import { UserInputError, ApolloError, withFilter } from 'apollo-server-express'
 import { Post, Comment, LikePost, Activity } from '../models'
 import pubsub from './subscriptions'
+import { paginateResults } from '../utils/paginate'
 
-const NEW_POST_CREATED = 'NEW_POST_CREATED'
-const NEW_POST_BY_FOLLOWING = 'NEW_POST_BY_FOLLOWING'
+const MESSAGE = {
+  NEW_POST_CREATED: 'NEW_POST_CREATED',
+  NEW_POST_BY_FOLLOWING: 'NEW_POST_BY_FOLLOWING'
+}
 
 export default {
   Subscription: {
     onPostCreate: {
       // Additional event labels can be passed to asyncIterator creation
-      subscribe: () => pubsub.asyncIterator([NEW_POST_CREATED])
+      subscribe: () => pubsub.asyncIterator([MESSAGE.NEW_POST_CREATED])
     },
     onPostCreateByFollowingList: {
       subscribe: withFilter(
-        () => pubsub.asyncIterator(NEW_POST_BY_FOLLOWING),
+        () => pubsub.asyncIterator(MESSAGE.NEW_POST_BY_FOLLOWING),
         (payload, { followingList }) => {
           return followingList.includes(payload.authorId)
         }
@@ -22,11 +25,6 @@ export default {
     }
   },
   Query: {
-    postList: (root, args, context, info) => {
-      // TODO: auth, projection, pagination
-
-      return Post.find({})
-    },
     post: (root, { id }, context, info) => {
       // TODO: auth, projection, sanitization
 
@@ -44,6 +42,29 @@ export default {
       }
       // TODO: This me need fixing
       return Post.find({ author: userId })
+    },
+    postList: async (root, { pageSize = 20, after }, context, info) => {
+      // TODO: auth, projection, pagination
+
+      const allPosts = await Post.find({}).sort({ updatedAt: -1 })
+
+      const posts = paginateResults({
+        after,
+        pageSize,
+        results: allPosts,
+        getCursor: (item) => { return item._id }
+      })
+
+      return {
+        posts,
+        cursor: posts.length ? posts[posts.length - 1]._id : null,
+        // if the cursor of the end of the paginated results is the same as the
+        // last item in _all_ results, then there are no more results after this
+        hasMore: posts.length
+          ? posts[posts.length - 1]._id !==
+            allPosts[allPosts.length - 1]._id
+          : false
+      }
     }
   },
   Mutation: {
@@ -63,8 +84,8 @@ export default {
         activityList: activityIdList,
         tagList: tagIdList
       })
-      pubsub.publish(NEW_POST_CREATED, { onPostCreate: post })
-      pubsub.publish(NEW_POST_BY_FOLLOWING, { authorId: authorId, onPostCreateByFollowingList: post })
+      pubsub.publish(MESSAGE.NEW_POST_CREATED, { onPostCreate: post })
+      pubsub.publish(MESSAGE.NEW_POST_BY_FOLLOWING, { authorId: authorId, onPostCreateByFollowingList: post })
       return post
     },
     updatePost: async (root, { input: args }, context, info) => {

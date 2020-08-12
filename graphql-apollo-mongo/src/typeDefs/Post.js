@@ -3,8 +3,14 @@ import { gql } from 'apollo-server-express'
 export default gql`
   extend type Query {
     post(id: ID!): Post
-    postList: [Post!]!
     postListByUserId(userId: ID!): [Post!]!
+    postList(pageSize: Int, after: String): PostConnection!
+  }
+
+  type PostConnection {
+    cursor: String!
+    hasMore: Boolean!
+    posts: [Post]!
   }
 
   extend type Subscription {
