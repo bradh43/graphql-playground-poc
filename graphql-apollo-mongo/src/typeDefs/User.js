@@ -26,6 +26,10 @@ export default gql`
     userId: ID!
     email: String
     username: String
+    first: String
+    last: String
+    profilePictureURL: String
+    birthdate: String
     password: String
     bio: String
     private: Boolean

@@ -1,4 +1,4 @@
-import { getClient, useQuery, useMutation, teardownDatabase } from './helper'
+import { getClient, useQuery, useMutation } from './helper'
 import { gql } from 'apollo-server-express'
 
 let client
@@ -99,8 +99,4 @@ describe('Equipment Resolver', () => {
     expect(updatedUser.id).toBe(testUser.id)
     expect(updatedUser.equipmentList[0].id).toBe(testEquipment.id)
   })
-})
-
-afterAll(async () => {
-  await teardownDatabase()
 })
