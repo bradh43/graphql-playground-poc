@@ -73,6 +73,15 @@ const UPDATE_USER_MUTATION = gql`
   }
 `
 
+const DELETE_USER_MUTATION = gql`
+  mutation updateUser($input: DeleteUserInput!) {
+    deleteUser(input: $input) {
+      message
+      success
+    }
+  }
+`
+
 beforeAll(async () => {
   client = await getClient()
 })
@@ -158,5 +167,24 @@ describe('User Resolver', () => {
     expect(updatedUser.birthdate).toBe('1933-03-15T10:12:19Z')
     expect(updatedUser.bio).toBe('You can disagree without being disagreeable')
     expect(updatedUser.private).toBeTruthy()
+
+    // check if removing a user works
+    const deleteUserResponse = await useMutation(client, DELETE_USER_MUTATION,
+      {
+        input: {
+          userId: testUser.id,
+          email: 'supremeRBG@gmail.com',
+          password: 'Equality4All!'
+        }
+      }
+    )
+    const deleteUser = deleteUserResponse.data.updateUser
+
+    expect(deleteUser.success).toBeTruthy()
+    expect(deleteUser.message).toBeDefined()
+
+    // TODO test follow user
+    // TODO test unfollow user
+    // TODO test
   })
 })
